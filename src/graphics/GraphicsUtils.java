@@ -11,20 +11,24 @@ public class GraphicsUtils {
 	public static BufferedImage perspectivize(BufferedImage source){
 		BufferedImage source2 = new BufferedImage(2100,2100,source.getType());
 		
-		double[][] rotationMatrix = new double[][]{{1,0,0,0},{0,Math.cos(Math.PI/4),-Math.sin(Math.PI/4),0},{0,Math.sin(Math.PI/4),Math.cos(Math.PI/4),0},{0,0,0,1}};
-		//double[][] clipMatrix = new double[][]{{fov/2,0,0,0},{0,fov/2,0,0},{0,0,-((far+near)/(far-near)),(2*near*far)/(near-far)},{0,0,-1,0}};
+		// Strategy to get closer to ideal (Multiply both numerator and denominator by angle, subtract one from numerator)
+		// Then, change Y and Z coordinates
+		int[] cameraPos = new int[]{400,600,-200};
+		double[][] R = new double[][]{{1,0,0},{0,Math.cos(7*Math.PI/6),-Math.sin(7*Math.PI/6)},{0,Math.sin(7*Math.PI/6),Math.cos(7*Math.PI/6)}};
 		
 		//int[][] pixelData = getPixels(source);
 		//System.out.println("Pixel Data: " + pixelData[0].length + "x" + pixelData.length);
 		for(int x = 0; x<source.getWidth();x++){
 			for(int y = 0; y<source.getHeight();y++){
-				double[][] points = (Utils.matrixMultiply(new double[][]{{x,y,0,1}},rotationMatrix));
+				double[][] newPoints = Utils.matrixMultiply(Utils.transposeMatrix(R),new double[][]{{x-cameraPos[0]},{y-cameraPos[1]},{0-cameraPos[2]}});
+				double[] newpoints2 = new double[]{newPoints[0][0]/newPoints[2][0],newPoints[1][0]/newPoints[2][0]};
+				
 				try{
-
-				source2.setRGB((int)(-points[0][0]*2/points[0][2]),(int)(-points[0][1]*2/points[0][2]),source.getRGB(x, y));
+				source2.setRGB((int)(newpoints2[0]*100)+400,(int)(newpoints2[1]*100)+400,source.getRGB(x, y));
 				}
 				catch(ArrayIndexOutOfBoundsException e){
-					System.out.println("EEK! Out of Bounds! [" + (int)points[0][1] + ", " + (int)(points[0][0]) + "]");
+					//System.out.println("EEK! Out of Bounds!");
+					//System.out.println(newpoints2[0]*100 + ", " + newpoints2[1]*100);
 				}
 			}
 		}

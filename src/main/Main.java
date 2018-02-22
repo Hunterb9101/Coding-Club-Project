@@ -42,7 +42,7 @@ public class Main extends graphics.ConstructorClass{
 		GraphicsObject.setDimens(width,height);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, width, height);	
-		g.drawImage(Window.getWindow().draw(this),0,0,this);
+		g.drawImage(GraphicsUtils.perspectivize(Window.getWindow().draw(this)),0,0,this);
 	}
 	
 	public void mousePressed(MouseEvent evt) {

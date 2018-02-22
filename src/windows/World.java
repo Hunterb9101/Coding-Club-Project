@@ -21,13 +21,13 @@ public class World extends Window{
 	@Override
 	public BufferedImage draw(Component mainWindow) {
 		// Needed Statements in any draw()
-		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(200,200)); // 200x200 is the window size
+		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(800,800)); // 200x200 is the window size
 		Graphics g = render.getGraphics();
 		
 		for(int x = 0; x < 10; x++){
 			for(int y = 0; y < 10; y++){
 				g.setColor(new Color(20*x,20*y,0));
-				g.fillRect(x*20,y*20,(int)(20),(int)(20));
+				g.fillRect(x*20+40,y*20+40,(int)(20),(int)(20));
 			}
 		}
 		

@@ -41,6 +41,14 @@ public class Utils {
         return C;
     }
 	
+	public static double[][] transposeMatrix(double [][] m){
+        double[][] temp = new double[m[0].length][m.length];
+        for (int i = 0; i < m.length; i++)
+            for (int j = 0; j < m[0].length; j++)
+                temp[j][i] = m[i][j];
+        return temp;
+    }
+	
 	
 	// Conversion from normal images (bleh) to BufferedImages (Whole bunch of cool features) //
 	public static BufferedImage toBufferedImage(Image img){
