@@ -21,7 +21,8 @@ import windows.World;
 //////////////////////////////////
 //				MAIN			//
 //		Handles all Windows		//
-//		Like the World Class	//
+//		Should not be edited	//
+//		for addition of windows //
 //		Press Compile Here		//
 //////////////////////////////////
 
@@ -42,7 +43,7 @@ public class Main extends graphics.ConstructorClass{
 		GraphicsObject.setDimens(width,height);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, width, height);	
-		g.drawImage(GraphicsUtils.perspectivize(Window.getWindow().draw(this)),0,0,this);
+		g.drawImage(Window.getWindow().draw(this),0,0,this);
 	}
 	
 	public void mousePressed(MouseEvent evt) {
