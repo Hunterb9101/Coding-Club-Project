@@ -4,120 +4,80 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.ArrayList;
+
+import windows.World;
 
 public class Tile {	
-	/*
-	static int tileSize = 48;
-    public static final int pxHeight = 12;
+	public static ArrayList<Tile> allTiles = new ArrayList<Tile>();
+	public static boolean showBorders = true;
 	
+	public static int xOffset = 0;
+	public static int yOffset = 0;
+	public static int origXOffset = 0;
+	public static int origYOffset = 0;
+	
+	static int tileSize = 80;
 	public Color textColor = Color.black;
-	
 	public Color borderColor = Color.black;
-	public boolean hasBorder = true;
+	public String baseImage;
 	
-	public String sideImage;
-	public String topImage;
+	public Overlay overlay = Overlay.allOverlays.get("null");
 	
-	public Tile(String imgPath, String imgPath2){
-		this.topImage = imgPath;
-		this.sideImage = imgPath2;
+	int x;
+	int y;
+	public int[] coords;
+	
+	public static int maxCol = 0;
+	public static int maxRow = 0;
+	
+	public Tile(int[] coords, String baseImage){
+		this.baseImage = baseImage;
+		this.coords = coords;
+		this.x = coords[0]*tileSize;
+		this.y = coords[1]*tileSize;
+		
+		if(coords[0] > maxCol){
+			maxCol = coords[0];
+		}
+		if(coords[1] > maxRow){
+			maxRow = coords[1];
+		}
+		allTiles.add(this);
 	}
 	
-	public static int[] selectTile(int mouseX, int mouseY){
-		int[] coords = null;
-		
-		mouseX -= RegionLoader.xOffset - RegionLoader.origXOffset;
-		mouseY -= RegionLoader.yOffset - RegionLoader.origYOffset;
-		
-		for(int i = TileReference.allTiles.size()-1 ; i>= 0; i--){
-			if(contains(new Point(mouseX,mouseY), TileReference.allTiles.get(i).xPoints, TileReference.allTiles.get(i).yPoints)){
-				coords = TileReference.allTiles.get(i).coords;
-				break;
+	public Tile(int[] coords, String baseImage, Overlay overlay){
+		this(coords,baseImage);
+		this.overlay = overlay;
+	}
+	
+	public static void drawTiles(Graphics g){
+		for(int i = 0; i<maxCol; i++){
+			for(int j = 0; j<maxRow; j++){
+				g.drawImage(Registry.tileRes.get(allTiles.get(j*maxCol + i).baseImage),allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + yOffset, null);
+				if(allTiles.get(j*maxCol+i).overlay != null){
+					g.drawImage(Registry.overlayRes.get(allTiles.get(j*maxCol + i).overlay.image),allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + yOffset - Registry.overlayRes.get(allTiles.get(j*maxCol+i).overlay.image).getHeight(null), null);
+				}
+				
+				if(showBorders){
+					g.drawLine(allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + yOffset, allTiles.get(j*maxCol+i).x + tileSize + xOffset, allTiles.get(j*maxCol+i).y + yOffset);
+					g.drawLine(allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + tileSize + yOffset, allTiles.get(j*maxCol+i).x + tileSize + xOffset, allTiles.get(j*maxCol+i).y +tileSize + yOffset);
+					
+					g.drawLine(allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + yOffset, allTiles.get(j*maxCol+i).x + xOffset, allTiles.get(j*maxCol+i).y + tileSize + yOffset);
+					g.drawLine(allTiles.get(j*maxCol+i).x + xOffset + tileSize, allTiles.get(j*maxCol+i).y + yOffset, allTiles.get(j*maxCol+i).x + tileSize + xOffset, allTiles.get(j*maxCol+i).y + tileSize + yOffset);
+				} 
 			}
-		}	
-		
-		return coords;
-	}
-	public void drawTile(Graphics g, int height, int[] coords, Tile tile, Overlay overlay, String dispText){
-		int[] xPoints = coords2Points(coords[0],coords[1],"x");
-		int[] yPoints = coords2Points(coords[0],coords[1],"y");
-		
-		Image imgtop = RegionLoader.images.get(tile.topImage);
-		Image imgside = RegionLoader.images.get(tile.sideImage);
-		
-		for(int h = 0; h<height; h++){			
-			yPoints = RegionWindow.addToArray(yPoints,-pxHeight);
-			g.drawImage(imgside,xPoints[0],yPoints[0],null);
-			g.drawImage(RegionLoader.images.get("shadow.png"), xPoints[0], yPoints[0], null);
-		}		
-		
-		g.drawImage(imgtop,xPoints[0], yPoints[1], null);
-		int[] newCoords = new int[]{coords[0],coords[1]};
-		new TileReference(tile, overlay, height, newCoords);
-		
-		if(textColor.equals("")){
-			g.setColor(textColor);
-			g.drawString(dispText, xPoints[1] - 16, yPoints[1]+tileSize/2 + 8);
-		}
-		
-		if(hasBorder){
-			g.setColor(borderColor);
-			g.drawPolygon(xPoints, yPoints, 4);
-		}
-		
-		try{
-			g.drawImage(RegionLoader.images.get(overlay.topImage),xPoints[0],yPoints[1]-RegionLoader.images.get(overlay.topImage).getHeight(null)+tileSize,null);
-		}catch(NullPointerException e){}
-		
-		yPoints = RegionWindow.addToArray(yPoints,pxHeight*height);	
-	}
-	
-	
-///////////////////////////////////////////
-//			  Tile Utilities             //
-///////////////////////////////////////////
-	public static void setTile(Tile newTile, int[] coords){
-		int idx = getIdxNum(coords[0],coords[1],RegionLoader.rowLen);
-		System.out.println(RegionLoader.rowLen);
-		TileReference.allTiles.get(idx).parent = newTile;
-	}
-	
-	public static int getIdxNum (int x, int y, int rowNum){
-		return x+y*(rowNum) + (y/2);
-	}
-	
-	public static int[] coords2Points(int x, int y, String returnVar){
-		int refPointX =((y%2==0) ? tileSize/2:0) + RegionLoader.xOffset + tileSize*x ;
-		int refPointY = tileSize/2*y + RegionLoader.yOffset;
-		
-		if(returnVar.equalsIgnoreCase("x")){
-			return new int[]{refPointX,refPointX+tileSize/2,refPointX+tileSize,refPointX+tileSize/2};
-		}
-		else if(returnVar.equalsIgnoreCase("y")){
-			return new int[]{refPointY,refPointY - tileSize/2, refPointY, refPointY + tileSize/2};
-		}
-		else{
-			throw new IllegalArgumentException();
 		}
 	}
 	
-	public static int[] points2Coords(int[] xPoints, int[] yPoints){
-		int y = yPoints[0]/tileSize;
-		int x = (xPoints[0] - ((y%2==0)?tileSize/2:0) - RegionLoader.xOffset)/tileSize;
-		return new int[]{x,y};
+	public static int[] selectTile(int x, int y){
+		for(int i = 0; i<allTiles.size(); i++){
+			if(x > allTiles.get(i).x && x < allTiles.get(i).x + Tile.tileSize 
+			&& y > allTiles.get(i).y && y < allTiles.get(i).y + Tile.tileSize){
+				return allTiles.get(i).coords;
+			}
+		}
+		return new int[]{-1,-1};
+		
 	}
-	
-	public static boolean contains(Point test, int[] xPoints, int[] yPoints) {
-	      int i;
-	      int j;
-	      boolean result = false;
-	      for (i = 0, j = xPoints.length - 1; i < xPoints.length; j = i++) {
-	        if (((yPoints[i] > test.y) != yPoints[j] > test.y) &&
-	            (test.x < ((xPoints[j] - xPoints[i]) * (test.y - yPoints[i]) / (yPoints[j]-yPoints[i]) + xPoints[i]))) {
-	          result = !result;
-	         }
-	      }
-	      return result;
-	 }
-	 */
 }

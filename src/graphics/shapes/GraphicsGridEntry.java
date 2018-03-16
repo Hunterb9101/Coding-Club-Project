@@ -4,20 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import main.InventoryItem;
-import main.Armor;
+import items.InventoryItem;
 import main.Main;
 import main.Registry;
-import main.Weapon;
+import main.Utils;
 import windows.InventoryWindow;
 
 public class GraphicsGridEntry extends GraphicsObject {
 	public Image src;
 	public String text;
+	
 	public InventoryItem i;
+	
 	private HoverBox descrip;
 	private GraphicsGrid parent;
 
+	protected boolean isHidden = false;
+	
 	public GraphicsGridEntry(Image iSrc, int iX, int iY, String iText, GraphicsGrid parent) {
 		// SHOULD NEVER BE CALLED EXCEPT BY GRAPHICS GRID
 		super(iX, iY, parent.itemWidth, parent.itemHeight);
@@ -26,6 +29,7 @@ public class GraphicsGridEntry extends GraphicsObject {
 		text = iText;
 		descrip = new HoverBox(iX, iY, text);
 	}
+	
 	public GraphicsGridEntry(int iX, int iY, InventoryItem i, GraphicsGrid parent) {
 		// SHOULD NEVER BE CALLED EXCEPT BY GRAPHICS GRID
 		super(iX, iY, parent.itemWidth, parent.itemHeight);
@@ -52,16 +56,15 @@ public class GraphicsGridEntry extends GraphicsObject {
 				Main.me.gold -= i.cost;
 				InventoryWindow.grid.addEntry(i);
 			}else{
-				Registry.h.printBox("Not enough gold");
+				Utils.printBox("Not enough gold");
 			}
 			
 			break;
 		case EQUIP:
 			int index = 5;
-			if (parent.parentMenu.equals(Main.currMenu)){//checks that we are in correct menu before doing on click
 				if(i.isWeapon()){
 					Main.me.equipedWeapon = i.getWeapon();
-					InventoryWindow.equiped.addEntry(i, index);
+					InventoryWindow.equipped.addEntry(i, index);
 				}
 				else if(i.isArmor()){
 					switch(i.getArmor().armorLocation){
@@ -88,8 +91,7 @@ public class GraphicsGridEntry extends GraphicsObject {
 					default:
 						break;					
 					}
-					InventoryWindow.equiped.addEntry(i.getArmor(), index);
-				}
+					InventoryWindow.equipped.addEntry(i.getArmor(), index);
 			}
 			break;
 		case NONE:

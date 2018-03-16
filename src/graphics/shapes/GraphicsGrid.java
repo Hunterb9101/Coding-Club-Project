@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import main.InventoryItem;
+import items.InventoryItem;
 import main.Main;
 import main.Registry;
 
@@ -15,8 +15,7 @@ public class GraphicsGrid extends GraphicsObject {
 	public static int xPadding = 3;
 	public static int yPadding = 3;
 
-	public static enum onClickBehavior {NONE, EQUIP, UNEQUIP, BUY, SELL};
-
+	public static enum onClickBehavior{NONE, EQUIP, UNEQUIP, BUY, SELL};
 	public onClickBehavior behavior = onClickBehavior.NONE;
 	int x;
 	int y;
@@ -57,23 +56,25 @@ public class GraphicsGrid extends GraphicsObject {
 	public void showChildren(){
 		for(int i = 0; i < items.length; i++){
 			if(items[i] != null){
-				items[i].parentMenu = parentMenu;
+				items[i].isHidden = false;
 			}
 		}
 	}
+	
 	public void hideChildren(){
 		for(int i = 0; i < items.length; i++){
 			if(items[i] != null){
-				items[i].parentMenu = Main.menuItem.DELETE;
+				items[i].isHidden = true;
 			}
 		}
 	}
+	
 	public void removeEntry(InventoryItem i) {
 		for (int j = 0; j < items.length; j++) {
 			try {
 				if (items[j].i == i) {
 					System.out.println(i.name + " successfully removed");
-					items[j].parentMenu = Main.menuItem.DELETE;
+					items[j].isHidden = true; 
 					items[j] = null;
 				}
 			} catch (NullPointerException e) {
@@ -152,7 +153,7 @@ public class GraphicsGrid extends GraphicsObject {
 	}
 
 	@Override
-	public void onHover() {
+	public void onHover(Graphics g) {
 		// do nothing because it is the grid
 	}
 

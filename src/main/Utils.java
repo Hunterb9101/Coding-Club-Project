@@ -3,6 +3,11 @@ package main;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+
+import javax.swing.JOptionPane;
 
 //////////////////////////////////////
 //			Utils			  		//
@@ -66,5 +71,33 @@ public class Utils {
 
 	    // Return the buffered image
 	    return bimage;
+	}
+	
+	public static void printBox(String text){
+		JOptionPane.showMessageDialog(null, text); //Simple JOption pane dialog box
+	}
+	
+	public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+	    for (Entry<T, E> entry : map.entrySet()) {
+	        if (Objects.equals(value, entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
+	}
+	
+	public static String getWorkspaceDirectory(){
+		String currDir = System.getProperty("user.dir");
+		String newFileDir = "";
+		String[] elements = currDir.split("\\\\");
+		
+		for(int i = 0; i<elements.length; i++){
+			System.out.println(elements[i]);
+		}
+		
+		for(int i = 0; i<elements.length - 1; i++){
+			newFileDir+= elements[i] + "\\";
+		}
+		return newFileDir;
 	}
 }

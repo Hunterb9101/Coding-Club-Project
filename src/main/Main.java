@@ -15,6 +15,7 @@ import java.util.Random;
 
 import graphics.GraphicsUtils;
 import graphics.shapes.GraphicsObject;
+import main.Player.traits;
 import windows.Window;
 import windows.World;
 
@@ -27,13 +28,21 @@ import windows.World;
 //////////////////////////////////
 
 public class Main extends graphics.ConstructorClass{
+	public static Player me = new Player(traits.NONE);
 	public static int width = 800;
 	public static int height = 800;
 	
 	public void init(int width, int height){
 		this.setSize(800,800);
+		
+		
+		Registry.registerOverlays();
+		Registry.registerTileBases();
+		
 		Registry.registerImageResources();
 		Registry.registerWindows();
+		//MapLoader.save("map.txt");
+
 	}
 	
 	public void draw(Graphics g, int width, int height){
@@ -42,7 +51,7 @@ public class Main extends graphics.ConstructorClass{
 		
 		GraphicsObject.setDimens(width,height);
 		g.setColor(Color.black);
-		g.fillRect(0, 0, width, height);	
+		g.fillRect(0, 0, width, height);
 		g.drawImage(Window.getWindow().draw(this),0,0,this);
 	}
 	

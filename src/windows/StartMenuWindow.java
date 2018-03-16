@@ -25,7 +25,7 @@ import main.Utils;
  	GraphicsImage loadGame = new GraphicsImage(Registry.imgRes.get("loadGameButton"),300,225,200,50){
  			@Override
  			public void onClick(){ //What happens when this image is clicked?
- 				Window.setWindow("world"); // Sets the window to the "world" window (as defined in the registry
+ 				Window.setWindow("worldEditor"); // Sets the window to the "world" window (as defined in the registry
  			}
  	};
  
