@@ -63,29 +63,29 @@ public class GraphicsGridEntry extends GraphicsObject {
 		case EQUIP:
 			int index = 5;
 				if(i.isWeapon()){
-					Main.me.equipedWeapon = i.getWeapon();
+					Main.me.equippedWeapon = i.getWeapon();
 					InventoryWindow.equipped.addEntry(i, index);
 				}
 				else if(i.isArmor()){
 					switch(i.getArmor().armorLocation){
 					case BOOTS:
-						Main.me.equipedBoots = i.getArmor();
+						Main.me.equippedBoots = i.getArmor();
 						index = 4;
 						break;
 					case CHEST:
-						Main.me.equipedChestplate = i.getArmor();
+						Main.me.equippedChestplate = i.getArmor();
 						index = 1;
 						break;
 					case GLOVES:
-						Main.me.equipedGloves = i.getArmor();
+						Main.me.equippedGloves = i.getArmor();
 						index = 2;
 						break;
 					case HEAD:
-						Main.me.equipedHelmet = i.getArmor();
+						Main.me.equippedHelmet = i.getArmor();
 						index = 0;
 						break;
 					case PANTS:
-						Main.me.equipedLeggings = i.getArmor();
+						Main.me.equippedLeggings = i.getArmor();
 						index = 3;
 						break;
 					default:
