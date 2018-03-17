@@ -18,34 +18,30 @@ import main.Utils;
 
 public class World extends Window{
 	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/pineapple.txt";
+	public static String currMapPath = null;
 	
 	public static Random rand = new Random();
 	
 	public World(String name) {
 		
 		super(name,false);
-		MapLoader.load(currMapPath);
-		
-		/*
-		for(int x = 0; x < 40; x++){
-			for(int y = 0; y < 40; y++){
-				if(rand.nextDouble()< .05){
-					new Tile(new int[]{x,y},"grass",Overlay.allOverlays.get("tree1"));
-				}
-				else{
-					new Tile(new int[]{x,y},"grass");
-				}	
-			}
+		if(currMapPath != null){
+			MapLoader.load(currMapPath);
 		}
-		*/ 
+		else{
+			MapLoader.generateMap();
+		}
 	}
 
 	@Override
 	public BufferedImage draw(Component mainWindow) {
-		if(!currMapPath.equals(MapLoader.loadedMap)){
-			MapLoader.load(currMapPath); // Load the Current Map
+		try{
+			if(!currMapPath.equals(MapLoader.loadedMap)){
+				MapLoader.load(currMapPath); // Load the Current Map
+			}
 		}
+		catch(NullPointerException e){}
+		
 		// Needed Statements in any draw()
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();

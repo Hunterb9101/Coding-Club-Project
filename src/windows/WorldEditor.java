@@ -21,36 +21,31 @@ import main.Utils;
 
 public class WorldEditor extends Window{
 	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/HunterIsFreakingAwesome.txt";
+	public static String currMapPath = "maps/Hunter.txt";
 	public static Random rand = new Random();
 	
 	public static boolean isOverlay = false;
 	public static int item = 0;
 	
 	public WorldEditor(String name) {
-		
 		super(name,false);
-		MapLoader.load(currMapPath);
-		
-		/*
-		for(int x = 0; x < 40; x++){
-			for(int y = 0; y < 40; y++){
-				if(rand.nextDouble()< .05){
-					new Tile(new int[]{x,y},"grass",Overlay.allOverlays.get("tree1"));
-				}
-				else{
-					new Tile(new int[]{x,y},"grass");
-				}	
-			}
+		if(currMapPath != null){
+			MapLoader.load(currMapPath);
 		}
-		*/
+		else{
+			MapLoader.generateMap();
+		}
 	}
 
 	@Override
 	public BufferedImage draw(Component mainWindow) {
-		if(!currMapPath.equals(MapLoader.loadedMap)){
-			MapLoader.load(currMapPath); // Load the Current Map
+		try{
+			if(!currMapPath.equals(MapLoader.loadedMap)){
+				MapLoader.load(currMapPath); // Load the Current Map
+			}
 		}
+		catch(NullPointerException e){}
+		
 		// Needed Statements in any draw()
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();
@@ -74,12 +69,10 @@ public class WorldEditor extends Window{
 	@Override
 	public void mousePressed(MouseEvent evt) {
 		int[] coords = Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset);
-		
-		System.out.println("Tile Clicked At: " + Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[0] + ", " + Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[1]);
 		for(int i = 0; i<Tile.allTiles.size(); i++){
 			if(Tile.allTiles.get(i).coords == coords){
 				if(isOverlay){
-					Tile.allTiles.get(i).overlay = Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item));
+					Tile.allTiles.get(i+1).overlay = Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)); //The +maxRow is added so that the tree is on the correct tile.
 				}
 				else{
 					Tile.allTiles.get(i).baseImage = Utils.getKeyByValue(Registry.saveTileKey,item);

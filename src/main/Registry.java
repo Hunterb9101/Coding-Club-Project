@@ -23,7 +23,7 @@ public class Registry {
 	public static HashMap<String,Integer> saveTileKey = new HashMap<String,Integer>();
 	public static HashMap<String,Integer> saveOverlayKey = new HashMap<String,Integer>();
 	
-	
+	public static boolean resourceDebugOutput = false; // Suppresses/Enables "Loaded Resource" System.println() output
 	static String imgLoadError = "Error loading image: ";
 	
 	public static void registerWindows(){
@@ -35,12 +35,27 @@ public class Registry {
 	
 	public static void registerOverlays(){
 		registerOverlay("null", loadImage("world/null.png"));
-		registerOverlay("tree1",loadImage("world/foliage/tree.png"));
+		registerOverlay("tree",loadImage("world/foliage/tree.png"));
+		registerOverlay("cactustop",loadImage("world/foliage/cactus_top.png"));
+		registerOverlay("cactusbottom",loadImage("world/foliage/cactus_bottom.png"));
+		
+		registerOverlay("doortop",loadImage("world/village/door_top.png"));
+		registerOverlay("doorbottom",loadImage("world/village/door_bottom.png"));
+		registerOverlay("path",loadImage("world/village/path.png"));
 	}
 	
 	public static void registerTileBases(){
 		registerTile("grass", loadImage("world/bases/grass.png"));
 		registerTile("dirt", loadImage("world/bases/dirt.png"));
+		registerTile("beach", loadImage("world/bases/beach.png"));
+		registerTile("beachocean", loadImage("world/bases/beach_ocean.png"));
+		registerTile("desert", loadImage("world/bases/desert.png"));
+		registerTile("desertrocks", loadImage("world/bases/desert_rocks.png"));
+		registerTile("desertrocks2", loadImage("world/bases/desert_rocks_2.png"));
+		registerTile("ocean", loadImage("world/bases/ocean.png"));
+		registerTile("oceanwavy", loadImage("world/bases/ocean_wavy.png"));
+		registerTile("oceanrocks", loadImage("world/bases/ocean_rocks.png"));
+		registerTile("oceanrocks2", loadImage("world/bases/ocean_rocks_2.png"));
 	}
 	
 	public static void registerImageResources(){
@@ -78,11 +93,15 @@ public class Registry {
 		Image img = null;
 		try {
 			if(path.substring(path.indexOf(".")).equals(".gif")){
-				System.out.println("Found animation: " + path);
+				if(resourceDebugOutput){
+					System.out.println("Found animation: " + path);
+				}
 				img = new ImageIcon(path).getImage();
 			}
 			else{
-				System.out.println("Loaded resource: " + path);
+				if(resourceDebugOutput){
+					System.out.println("Loaded resource: " + path);
+				}
 				img = ImageIO.read(new File(path));
 			}
 		} catch (IOException e) {

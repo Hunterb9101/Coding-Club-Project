@@ -2,12 +2,14 @@ package main;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 // MapLoader handles all saving/loading of maps //
 public class MapLoader {
 	public static HashMap<String,Tile> tileLoadKey = new HashMap<String,Tile>();	// Contains the Key for the Map
 	public static HashMap<String,Overlay> overlayLoadKey = new HashMap<String,Overlay>(); // Contains the Key for the Overlays
 	public static String loadedMap = null;
+	public static Random rand = new Random();
 	
 	public static void save(String mapName){
 		String saveGame = "";
@@ -41,6 +43,9 @@ public class MapLoader {
 		saveGame += "//";
 		
 		for(int i = 0; i<Tile.allTiles.size(); i++){ // Store Overlay
+			System.out.println(Tile.allTiles.get(i).coords[0] + ", " + Tile.allTiles.get(i).coords[1]);
+			System.out.println(Tile.allTiles.get(i).overlay);
+			System.out.println(Tile.allTiles.get(i).overlay.image);
 			saveGame += String.valueOf(Registry.saveOverlayKey.get(Tile.allTiles.get(i).overlay.image));
 			if(i != Tile.allTiles.size() - 1){
 				saveGame += ",";
@@ -63,7 +68,6 @@ public class MapLoader {
 		
 		for(int i = 0; i<tileKeyEntries.length; i++){
 			loadTileKey.put(Integer.valueOf(tileKeyEntries[i].split("\\.")[0]), tileKeyEntries[i].split("\\.")[1]);
-			System.out.println(tileKeyEntries[i].split("\\.")[1]);
 		}
 		
 		// Create Key for Overlay from Schema //
@@ -78,7 +82,23 @@ public class MapLoader {
 		
 		for(int i = 0; i<Tile.maxRow; i++){
 			for(int j = 0; j<Tile.maxCol; j++){
-				new Tile(new int[]{i,j},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))));
+				new Tile(new int[]{j,i},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))));
+			}
+		}
+	}
+	
+	public static void generateMap(){
+		Tile.allTiles.clear();
+		loadedMap = null;
+		
+		for(int x = 0; x < 40; x++){
+			for(int y = 0; y < 40; y++){
+				if(rand.nextDouble()< .05){
+					new Tile(new int[]{x,y},"grass",Overlay.allOverlays.get("tree"));
+				}
+				else{
+					new Tile(new int[]{x,y},"grass");
+				}	
 			}
 		}
 	}

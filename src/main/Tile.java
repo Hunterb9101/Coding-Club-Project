@@ -49,6 +49,12 @@ public class Tile {
 	public Tile(int[] coords, String baseImage, Overlay overlay){
 		this(coords,baseImage);
 		this.overlay = overlay;
+		try{
+			if(overlay.image == null){}
+		}
+		catch(NullPointerException e){
+			System.err.println("Null Reference For Overlay");
+		}
 	}
 	
 	public static void drawTiles(Graphics g){
