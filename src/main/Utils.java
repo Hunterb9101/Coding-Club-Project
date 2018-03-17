@@ -3,9 +3,16 @@ package main;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -99,5 +106,45 @@ public class Utils {
 			newFileDir+= elements[i] + "\\";
 		}
 		return newFileDir;
+	}
+	
+	public static List<String> readFile(File filePath) { 
+		String fLine = "";
+		List<String> fDataRaw = new ArrayList<String>(); // All Data in a file
+		if (filePath.exists()) {
+			try {
+				Scanner scan = new Scanner(filePath);
+				while (scan.hasNext()) {
+					fLine = scan.nextLine(); // This records every line
+					fDataRaw.add(fLine); // this adds the string into the entire
+											// database
+					fLine = "";// resets the line variable so the string doesn't
+								// keep concatenating the lines before it.
+				}
+				scan.close();
+			} catch (FileNotFoundException ignored) {
+			}
+		}
+
+		else {
+			System.out.println("ERROR: FileOps can't find the file!");
+		}
+		return fDataRaw;
+	}
+	
+	public static void writeFile(String path, String[] data){ //Allows the program to write to a file
+		try{
+			PrintWriter writer = new PrintWriter(new File(path), "UTF-8");
+			
+			for(int i = 1; i<data.length; i++) {
+				System.out.println(data[i]);
+				writer.println(data[i]);
+			}
+		
+			writer.close();
+		}
+		
+		catch(FileNotFoundException ingore){}
+		catch(UnsupportedEncodingException ignore){}
 	}
 }

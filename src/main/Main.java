@@ -17,7 +17,7 @@ import graphics.GraphicsUtils;
 import graphics.shapes.GraphicsObject;
 import main.Player.traits;
 import windows.Window;
-import windows.World;
+import windows.world.World;
 
 //////////////////////////////////
 //				MAIN			//

@@ -1,4 +1,4 @@
-package windows;
+package windows.world;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,11 +13,9 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 
 import main.Main;
-import main.MapLoader;
-import main.Overlay;
 import main.Registry;
-import main.Tile;
 import main.Utils;
+import windows.Window;
 
 public class WorldEditor extends Window{
 	public static int scrollSpeed = 3;

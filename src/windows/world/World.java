@@ -1,4 +1,4 @@
-package windows;
+package windows.world;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -11,10 +11,8 @@ import java.awt.image.DataBufferInt;
 import java.util.Random;
 
 import main.Main;
-import main.MapLoader;
-import main.Overlay;
-import main.Tile;
 import main.Utils;
+import windows.Window;
 
 public class World extends Window{
 	public static int scrollSpeed = 3;

@@ -1,8 +1,11 @@
-package main;
+package windows.world;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
+
+import main.Registry;
+import main.Utils;
 
 // MapLoader handles all saving/loading of maps //
 public class MapLoader {
@@ -51,12 +54,12 @@ public class MapLoader {
 				saveGame += ",";
 			}
 		}
-		FileOps.writeFile(Utils.getWorkspaceDirectory() + "res\\maps\\" + mapName + ".txt", new String[]{"",saveGame});
+		Utils.writeFile(Utils.getWorkspaceDirectory() + "res\\maps\\" + mapName + ".txt", new String[]{"",saveGame});
 	}
 	
 	public static void load(String path){
 		loadedMap = path;
-		String[] map = FileOps.readFile(new File(path)).get(0).split("//");	
+		String[] map = Utils.readFile(new File(path)).get(0).split("//");	
 		Tile.allTiles.clear();
 		// Set Dimensions //
 		Tile.maxRow = Integer.valueOf(map[0].split(",")[0]);
@@ -80,9 +83,9 @@ public class MapLoader {
 		String[] tile = map[3].split(",");
 		String[] overlay = map[4].split(",");
 		
-		for(int i = 0; i<Tile.maxRow; i++){
-			for(int j = 0; j<Tile.maxCol; j++){
-				new Tile(new int[]{j,i},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))));
+		for(int j = 0; j<Tile.maxCol; j++){
+			for(int i = 0; i<Tile.maxRow; i++){
+				new Tile(new int[]{i,j},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))));
 			}
 		}
 	}

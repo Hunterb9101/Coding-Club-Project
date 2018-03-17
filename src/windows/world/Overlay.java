@@ -1,4 +1,4 @@
-package main;
+package windows.world;
 
 import java.awt.Image;
 import java.util.HashMap;

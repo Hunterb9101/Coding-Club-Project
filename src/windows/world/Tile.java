@@ -1,4 +1,4 @@
-package main;
+package windows.world;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import windows.World;
+import main.Registry;
 
 public class Tile {	
 	public static ArrayList<Tile> allTiles = new ArrayList<Tile>();

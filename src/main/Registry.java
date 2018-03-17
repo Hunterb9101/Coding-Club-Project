@@ -9,8 +9,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import windows.StartMenuWindow;
-import windows.World;
-import windows.WorldEditor;
+import windows.world.Overlay;
+import windows.world.World;
+import windows.world.WorldEditor;
 
 public class Registry {
 	public static HashMap<String,Image> imgRes = new HashMap<String,Image>();

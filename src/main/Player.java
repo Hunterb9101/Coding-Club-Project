@@ -20,12 +20,12 @@ public class Player {
 	public int maxHp = 0; // !SHOULD NOT BE EDITED! //
 	public int attack = 0;
 
-	public Armor equipedHelmet;
-	public Armor equipedChestplate;
-	public Armor equipedGloves;
-	public Armor equipedLeggings;
-	public Armor equipedBoots;
-	public Weapon equipedWeapon;
+	public Armor equippedHelmet;
+	public Armor equippedChestplate;
+	public Armor equippedGloves;
+	public Armor equippedLeggings;
+	public Armor equippedBoots;
+	public Weapon equippedWeapon;
 	/* Skills */
 	public int skillAttk = 0; // Melee Weapons Attack Bonus
 	public int skillAccuracy = 0; // Ranged Weapons Attack Bonus
@@ -72,22 +72,22 @@ public class Player {
 
 	public int calculateMaxHP() {
 		maxHp = (hp * lvl);
-		//checks that some armor is equiped
+		//checks that some armor is equipped
 		//then adds it to the max HP
-		if (equipedHelmet != null) {
-			maxHp += equipedHelmet.defense;
+		if (equippedHelmet != null) {
+			maxHp += equippedHelmet.defense;
 		}
-		if (equipedChestplate != null) {
-			maxHp += equipedChestplate.defense;
+		if (equippedChestplate != null) {
+			maxHp += equippedChestplate.defense;
 		}
-		if (equipedGloves != null) {
-			maxHp += equipedGloves.defense;
+		if (equippedGloves != null) {
+			maxHp += equippedGloves.defense;
 		}
-		if (equipedLeggings != null) {
-			maxHp += equipedLeggings.defense;
+		if (equippedLeggings != null) {
+			maxHp += equippedLeggings.defense;
 		}
-		if (equipedBoots != null) {
-			maxHp += equipedBoots.defense;
+		if (equippedBoots != null) {
+			maxHp += equippedBoots.defense;
 		}
 		// Calculate the max hitpoints based off of armor, skills, etc. //
 		return maxHp;
@@ -101,10 +101,10 @@ public class Player {
 
 	public int getAttackDamage() {
 		attack = lvl * 5;
-		if (equipedWeapon == null) {
+		if (equippedWeapon == null) {
 
 		} else {
-			attack += equipedWeapon.damage;
+			attack += equippedWeapon.damage;
 		}
 		// This formula will be used to calculate the amount of damage will be
 		// done to a target //
