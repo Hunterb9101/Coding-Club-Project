@@ -2,7 +2,7 @@
  * I am writing this to test the commit capabilities of GIT!
  * Another Test...
  */
-package items;
+package entity.items;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -14,16 +14,14 @@ public class Armor extends InventoryItem{
 	public String name;
 	public int defense;
 	int cost;
+	boolean isShield;
 	public static Image src = Registry.loadImage("res/Flag2.png");
-	public static enum armorPiece {BOOTS, PANTS, CHEST, HEAD, GLOVES}
-	public armorPiece armorLocation;
 	
-	public Armor(String name, int defense, int cost, armorPiece armorLocation) {
-		super(name,src,cost);
-		this.armorLocation = armorLocation;
-		this.name = name;
+	public Armor(String name, int defense, int cost, boolean isShield) {
+		super("0",src,cost);
 		this.defense = defense;
 		this.cost = cost;
+		this.isShield =isShield;
 		allArmor.add(this);
 	}
 	public static Armor getArmor(String name){
