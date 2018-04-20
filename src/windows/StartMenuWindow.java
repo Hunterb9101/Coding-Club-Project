@@ -39,7 +39,7 @@ import main.Utils;
  	GraphicsImage credits = new GraphicsImage(Registry.imgRes.get("creditButton"),300,375,200,50){ 
  		@Override
  		public void onClick(){
- 			Window.setWindow("world");
+ 			Window.setWindow("battle");
  		}
  	};
  	

@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import windows.StartMenuWindow;
+import windows.world.BattleWindow;
 import windows.world.Overlay;
 import windows.world.World;
 import windows.world.WorldEditor;
@@ -40,6 +41,7 @@ public class Registry {
 		new World("world");
 		new WorldEditor("worldEditor");
 		new StartMenuWindow("start");
+		new BattleWindow("battle");
 	}
 	
 	
