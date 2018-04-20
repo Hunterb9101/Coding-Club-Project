@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import items.InventoryItem;
+import entity.items.InventoryItem;
 import main.Main;
 import main.Registry;
 

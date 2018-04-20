@@ -2,9 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
-import items.Armor;
-import items.InventoryItem;
-import items.Weapon;
+import entity.items.Armor;
+import entity.items.InventoryItem;
+import entity.items.Weapon;
 
 public class Player {
 	public ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
