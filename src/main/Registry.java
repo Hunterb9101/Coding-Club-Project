@@ -27,6 +27,15 @@ public class Registry {
 	public static boolean resourceDebugOutput = false; // Suppresses/Enables "Loaded Resource" System.println() output
 	static String imgLoadError = "Error loading image: ";
 	
+	
+	public static void registerItems() {
+		// Include Swords, Potions, and stuff here
+	}
+	
+	public static void registerPlayerClasses() {
+		// Register PlayerClasses here
+	}
+	
 	public static void registerWindows(){
 		new World("world");
 		new WorldEditor("worldEditor");
@@ -76,7 +85,6 @@ public class Registry {
 		imgRes.put("Flag2", loadImage("resMaps/Flag2.png"));
 		imgRes.put("Grid", loadImage("resMaps/Grid.png"));
 	}
-	
 	
 	public static void registerTile(String key, Image value){
 		tileRes.put(key, value);
