@@ -1,11 +1,7 @@
 package entity;
 
-import java.util.ArrayList;
-
-import main.Spells;
 
 public class Spell {
-	public static ArrayList<Spells> allSpells = new ArrayList<Spells>();
 	public String name;
 	public String type;
 	public int range;
