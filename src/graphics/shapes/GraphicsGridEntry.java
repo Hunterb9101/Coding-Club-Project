@@ -66,6 +66,7 @@ public class GraphicsGridEntry extends GraphicsObject {
 					Main.me.equippedWeapon = i.getWeapon();
 					InventoryWindow.equipped.addEntry(i, index);
 				}
+				/*
 				else if(i.isArmor()){
 					switch(i.getArmor().armorLocation){
 					case BOOTS:
@@ -92,7 +93,9 @@ public class GraphicsGridEntry extends GraphicsObject {
 						break;					
 					}
 					InventoryWindow.equipped.addEntry(i.getArmor(), index);
+					
 			}
+			*/
 			break;
 		case NONE:
 			break;
