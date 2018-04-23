@@ -10,7 +10,7 @@ import main.Registry;
 
 public class Tile {	
 	public static ArrayList<Tile> allTiles = new ArrayList<Tile>();
-	public static boolean showBorders = true;
+	public static boolean showBorders = true; //This is a debug tool. If true, borders will show between the tiles.
 	
 	public static int xOffset = 0;
 	public static int yOffset = 0;
@@ -37,10 +37,10 @@ public class Tile {
 		this.x = coords[0]*tileSize;
 		this.y = coords[1]*tileSize;
 		
-		if(coords[0] > maxCol){
+		if(coords[0]-1 > maxCol){
 			maxCol = coords[0];
 		}
-		if(coords[1] > maxRow){
+		if(coords[1]-1 > maxRow){
 			maxRow = coords[1];
 		}
 		allTiles.add(this);

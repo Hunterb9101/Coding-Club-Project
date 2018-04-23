@@ -11,7 +11,12 @@ import main.Utils;
 public class MapLoader {
 	public static HashMap<String,Tile> tileLoadKey = new HashMap<String,Tile>();	// Contains the Key for the Map
 	public static HashMap<String,Overlay> overlayLoadKey = new HashMap<String,Overlay>(); // Contains the Key for the Overlays
-	public static String loadedMap = null;
+	
+	//Put this in currMapPath in World or WorldEditor to create a map
+	public static final String genMapKey = "%ToGenerate%"; // DO NOT MAKE A FILE WITH THIS NAME! 
+		
+	public static String loadedMap = genMapKey; // Currently Loaded Map
+	
 	public static Random rand = new Random();
 	
 	public static void save(String mapName){
@@ -46,9 +51,6 @@ public class MapLoader {
 		saveGame += "//";
 		
 		for(int i = 0; i<Tile.allTiles.size(); i++){ // Store Overlay
-			System.out.println(Tile.allTiles.get(i).coords[0] + ", " + Tile.allTiles.get(i).coords[1]);
-			System.out.println(Tile.allTiles.get(i).overlay);
-			System.out.println(Tile.allTiles.get(i).overlay.image);
 			saveGame += String.valueOf(Registry.saveOverlayKey.get(Tile.allTiles.get(i).overlay.image));
 			if(i != Tile.allTiles.size() - 1){
 				saveGame += ",";
@@ -58,6 +60,7 @@ public class MapLoader {
 	}
 	
 	public static void load(String path){
+		System.out.println("Loading Map: " + path);
 		loadedMap = path;
 		String[] map = Utils.readFile(new File(path)).get(0).split("//");	
 		Tile.allTiles.clear();
@@ -91,8 +94,9 @@ public class MapLoader {
 	}
 	
 	public static void generateMap(){
+		System.out.println("Generating Map");
 		Tile.allTiles.clear();
-		loadedMap = null;
+		loadedMap = genMapKey;
 		
 		for(int x = 0; x < 40; x++){
 			for(int y = 0; y < 40; y++){

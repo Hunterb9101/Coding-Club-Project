@@ -19,7 +19,7 @@ import windows.Window;
 
 public class WorldEditor extends Window{
 	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/Hunter.txt";
+	public static String currMapPath = "maps/Hunter3.txt";
 	public static Random rand = new Random();
 	
 	public static boolean isOverlay = false;
@@ -27,7 +27,7 @@ public class WorldEditor extends Window{
 	
 	public WorldEditor(String name) {
 		super(name,false);
-		if(currMapPath != null){
+		if(!currMapPath.equals(MapLoader.genMapKey)){
 			MapLoader.load(currMapPath);
 		}
 		else{
@@ -39,7 +39,13 @@ public class WorldEditor extends Window{
 	public BufferedImage draw(Component mainWindow) {
 		try{
 			if(!currMapPath.equals(MapLoader.loadedMap)){
-				MapLoader.load(currMapPath); // Load the Current Map
+				if(!currMapPath.equals(MapLoader.genMapKey)){
+					MapLoader.load(currMapPath); // Load the Current Map
+				}
+				else{
+					MapLoader.generateMap();
+				}
+				
 			}
 		}
 		catch(NullPointerException e){}

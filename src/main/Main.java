@@ -35,14 +35,11 @@ public class Main extends graphics.ConstructorClass{
 	public void init(int width, int height){
 		this.setSize(800,800);
 		
-		
 		Registry.registerOverlays();
 		Registry.registerTileBases();
 		
 		Registry.registerImageResources();
 		Registry.registerWindows();
-		//MapLoader.save("map.txt");
-
 	}
 	
 	public void draw(Graphics g, int width, int height){

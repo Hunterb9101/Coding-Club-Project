@@ -16,14 +16,13 @@ import windows.Window;
 
 public class World extends Window{
 	public static int scrollSpeed = 3;
-	public static String currMapPath = null;
+	public static String currMapPath = "maps/Hunter2.txt"; // Change this to the file path, or MapLoader.genMapKey
 	
 	public static Random rand = new Random();
 	
 	public World(String name) {
-		
 		super(name,false);
-		if(currMapPath != null){
+		if(!currMapPath.equals(MapLoader.genMapKey)){
 			MapLoader.load(currMapPath);
 		}
 		else{
@@ -35,7 +34,12 @@ public class World extends Window{
 	public BufferedImage draw(Component mainWindow) {
 		try{
 			if(!currMapPath.equals(MapLoader.loadedMap)){
-				MapLoader.load(currMapPath); // Load the Current Map
+				if(currMapPath.equals(MapLoader.genMapKey)){
+					MapLoader.generateMap(); // Load the Current Map
+				}
+				else{
+					MapLoader.load(currMapPath); // Load the Current Map
+				}	
 			}
 		}
 		catch(NullPointerException e){}
