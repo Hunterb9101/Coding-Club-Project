@@ -8,71 +8,78 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 import java.util.Random;
 
+import entity.Entity;
 import main.Main;
 import main.Utils;
 import windows.Window;
 
-public class World extends Window{
-	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/Hunter2.txt"; // Change this to the file path, or MapLoader.genMapKey
+public abstract class World extends Window{
+	public int scrollSpeed = 3;
+	public int xOffset = 0;
+	public int yOffset = 0;
+	public int origXOffset = 0;
+	public int origYOffset = 0;
 	
-	public static Random rand = new Random();
+	private String currMapPath = ""; // Change this to the file path, or MapLoader.genMapKey
+	public ArrayList<Tile> worldTiles = new ArrayList<Tile>(); // Functions as AllTiles used to.
+	public ArrayList<Entity> worldEntities = new ArrayList<Entity>(); // Functions as AllEntities did.
 	
-	public World(String name) {
+	public World(String name, String mapPath) {
 		super(name,false);
-		if(!currMapPath.equals(MapLoader.genMapKey)){
-			MapLoader.load(currMapPath);
-		}
-		else{
-			MapLoader.generateMap();
-		}
+		setMap(mapPath);
 	}
 
+	public void setMap(String mapPath){ // The way to change maps for a given World instance at any time.
+		if(currMapPath.equals(MapLoader.genMapKey)){
+			MapLoader.generateMap(this); // Load the Current Map
+		}
+		else{
+			MapLoader.load(mapPath,this); // Load the Current Map
+		}	
+	}
+	
 	@Override
 	public BufferedImage draw(Component mainWindow) {
-		try{
-			if(!currMapPath.equals(MapLoader.loadedMap)){
-				if(currMapPath.equals(MapLoader.genMapKey)){
-					MapLoader.generateMap(); // Load the Current Map
-				}
-				else{
-					MapLoader.load(currMapPath); // Load the Current Map
-				}	
-			}
-		}
-		catch(NullPointerException e){}
-		
-		// Needed Statements in any draw()
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();
-		Tile.drawTiles(g);
-		
+		Tile.drawTiles(g,this);
+		Entity.drawAllEntitiesInWorld(g, this);
+		drawWorld(g, mainWindow.getWidth(), mainWindow.getHeight());
 		return render;
 	}
+	
+	public abstract void drawWorld(Graphics g, int width, int height);
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		System.out.println(Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[0] + ", " + Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[1]);
+		// Print out clicked tile
+		//System.out.println(Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[0] + ", " + Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[1]);
 		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent evt) {
+		
+		/*
 		if(evt.getKeyChar() == 'd'){
-			Tile.xOffset -= scrollSpeed;
+			xOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'a'){
-			Tile.xOffset += scrollSpeed;
+			xOffset += scrollSpeed;
 			
 		}
 		else if(evt.getKeyChar() == 's'){
-			Tile.yOffset -= scrollSpeed;
+			yOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'w'){
-			Tile.yOffset += scrollSpeed;
+			yOffset += scrollSpeed;
 		}
 		
+		*/
+		
+		// Basic scrolling ability
 	}
 }
