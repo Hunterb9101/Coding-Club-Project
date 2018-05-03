@@ -27,14 +27,6 @@ public class WorldEditor extends World{
 	}
 
 	@Override
-	public BufferedImage draw(Component mainWindow) {
-		
-		
-		
-		return render;
-	}
-
-	@Override
 	public void mousePressed(MouseEvent evt) {
 		int[] coords = Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset);
 		for(int i = 0; i<Tile.allTiles.size(); i++){
@@ -54,17 +46,17 @@ public class WorldEditor extends World{
 	@Override
 	public void keyPressed(KeyEvent evt) {
 		if(evt.getKeyChar() == 'd'){
-			Tile.xOffset -= scrollSpeed;
+			xOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'a'){
-			Tile.xOffset += scrollSpeed;
+			xOffset += scrollSpeed;
 			
 		}
 		else if(evt.getKeyChar() == 's'){
-			Tile.yOffset -= scrollSpeed;
+			yOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'w'){
-			Tile.yOffset += scrollSpeed;
+			yOffset += scrollSpeed;
 		}
 		
 		else if(evt.getKeyChar() == 'i'){
@@ -91,7 +83,7 @@ public class WorldEditor extends World{
 		else if(evt.getKeyChar() == 'q'){
 			String fileName = JOptionPane.showInputDialog("File Name for Map Save:");
 			System.out.println(fileName);
-			MapLoader.save(fileName);
+			MapLoader.save(fileName,this);
 		}
 	}
 
@@ -99,13 +91,13 @@ public class WorldEditor extends World{
 	public void drawWorld(Graphics g, int width, int height) {
 		// This creates the menu for the World Editor //
 				g.setColor(Color.darkGray);
-				g.fillRect(mainWindow.getWidth() - 100, 20, 86, 166);
+				g.fillRect(width - 100, 20, 86, 166);
 				
 				if(isOverlay){
-					g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), mainWindow.getWidth() - 100, 25, null);
+					g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), width - 100, 25, null);
 				}
 				else{
-					g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), mainWindow.getWidth() - 97, 25, null);
+					g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), width - 97, 25, null);
 				}
 	}
 }
