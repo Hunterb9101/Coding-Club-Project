@@ -19,7 +19,7 @@ public class MapLoader {
 	
 	public static Random rand = new Random();
 	
-	public static void save(String mapName){
+	public static void save(String mapName, World w){
 		String saveGame = "";
 		saveGame += Tile.maxRow + "," + Tile.maxCol + "//"; // Stores Map Dimensions
 		
@@ -41,29 +41,29 @@ public class MapLoader {
 		
 		saveGame += "//";
 		
-		for(int i = 0; i<Tile.allTiles.size(); i++){ // Store Base Tile Images
-			saveGame += String.valueOf(Registry.saveTileKey.get(Tile.allTiles.get(i).baseImage));
-			if(i != Tile.allTiles.size() - 1){
+		for(int i = 0; i<w.worldTiles.size(); i++){ // Store Base Tile Images
+			saveGame += String.valueOf(Registry.saveTileKey.get(w.worldTiles.get(i).baseImage));
+			if(i != w.worldTiles.size() - 1){
 				saveGame += ",";
 			}
 		}
 		
 		saveGame += "//";
 		
-		for(int i = 0; i<Tile.allTiles.size(); i++){ // Store Overlay
-			saveGame += String.valueOf(Registry.saveOverlayKey.get(Tile.allTiles.get(i).overlay.image));
-			if(i != Tile.allTiles.size() - 1){
+		for(int i = 0; i<w.worldTiles.size(); i++){ // Store Overlay
+			saveGame += String.valueOf(Registry.saveOverlayKey.get(w.worldTiles.get(i).overlay.image));
+			if(i != w.worldTiles.size() - 1){
 				saveGame += ",";
 			}
 		}
 		Utils.writeFile(Utils.getWorkspaceDirectory() + "res\\maps\\" + mapName + ".txt", new String[]{"",saveGame});
 	}
 	
-	public static void load(String path){
+	public static void load(String path, World w){
 		System.out.println("Loading Map: " + path);
 		loadedMap = path;
 		String[] map = Utils.readFile(new File(path)).get(0).split("//");	
-		Tile.allTiles.clear();
+		w.worldTiles.clear();
 		// Set Dimensions //
 		Tile.maxRow = Integer.valueOf(map[0].split(",")[0]);
 		Tile.maxCol = Integer.valueOf(map[0].split(",")[1]);
@@ -88,23 +88,23 @@ public class MapLoader {
 		
 		for(int j = 0; j<Tile.maxCol; j++){
 			for(int i = 0; i<Tile.maxRow; i++){
-				new Tile(new int[]{i,j},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))));
+				new Tile(new int[]{i,j},loadTileKey.get(Integer.valueOf(tile[i+j*Tile.maxRow])),Overlay.allOverlays.get(loadOverlayKey.get(Integer.valueOf(overlay[i+j*Tile.maxRow]))),w);
 			}
 		}
 	}
 	
-	public static void generateMap(){
+	public static void generateMap(World w){
 		System.out.println("Generating Map");
-		Tile.allTiles.clear();
+		w.worldTiles.clear();
 		loadedMap = genMapKey;
 		
 		for(int x = 0; x < 40; x++){
 			for(int y = 0; y < 40; y++){
 				if(rand.nextDouble()< .05){
-					new Tile(new int[]{x,y},"grass",Overlay.allOverlays.get("tree"));
+					new Tile(new int[]{x,y},"grass",Overlay.allOverlays.get("tree"),w);
 				}
 				else{
-					new Tile(new int[]{x,y},"grass");
+					new Tile(new int[]{x,y},"grass",w);
 				}	
 			}
 		}

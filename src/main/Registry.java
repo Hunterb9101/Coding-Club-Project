@@ -86,6 +86,10 @@ public class Registry {
 		imgRes.put("Flag", loadImage("resMaps/Flag.png"));//test image
 		imgRes.put("Flag2", loadImage("resMaps/Flag2.png"));
 		imgRes.put("Grid", loadImage("resMaps/Grid.png"));
+		
+		
+		// Should not be placed here, but will be for now.
+		imgRes.put("Character", loadImage("entity/PlayerALPHA.png"));
 	}
 	
 	public static void registerTile(String key, Image value){

@@ -17,55 +17,19 @@ import main.Registry;
 import main.Utils;
 import windows.Window;
 
-public class WorldEditor extends Window{
-	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/Hunter3.txt";
-	public static Random rand = new Random();
-	
+public class WorldEditor extends World{
 	public static boolean isOverlay = false;
 	public static int item = 0;
 	
-	public WorldEditor(String name) {
-		super(name,false);
-		if(!currMapPath.equals(MapLoader.genMapKey)){
-			MapLoader.load(currMapPath);
-		}
-		else{
-			MapLoader.generateMap();
-		}
+	public WorldEditor(String name, String mapPath) {
+		super(name,mapPath);
+		setMap(mapPath);
 	}
 
 	@Override
 	public BufferedImage draw(Component mainWindow) {
-		try{
-			if(!currMapPath.equals(MapLoader.loadedMap)){
-				if(!currMapPath.equals(MapLoader.genMapKey)){
-					MapLoader.load(currMapPath); // Load the Current Map
-				}
-				else{
-					MapLoader.generateMap();
-				}
-				
-			}
-		}
-		catch(NullPointerException e){}
-		
-		// Needed Statements in any draw()
-		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
-		Graphics g = render.getGraphics();
-		Tile.drawTiles(g);
 		
 		
-		// This creates the menu for the World Editor //
-		g.setColor(Color.darkGray);
-		g.fillRect(mainWindow.getWidth() - 100, 20, 86, 166);
-		
-		if(isOverlay){
-			g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), mainWindow.getWidth() - 100, 25, null);
-		}
-		else{
-			g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), mainWindow.getWidth() - 97, 25, null);
-		}
 		
 		return render;
 	}
@@ -129,5 +93,19 @@ public class WorldEditor extends Window{
 			System.out.println(fileName);
 			MapLoader.save(fileName);
 		}
+	}
+
+	@Override
+	public void drawWorld(Graphics g, int width, int height) {
+		// This creates the menu for the World Editor //
+				g.setColor(Color.darkGray);
+				g.fillRect(mainWindow.getWidth() - 100, 20, 86, 166);
+				
+				if(isOverlay){
+					g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), mainWindow.getWidth() - 100, 25, null);
+				}
+				else{
+					g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), mainWindow.getWidth() - 97, 25, null);
+				}
 	}
 }

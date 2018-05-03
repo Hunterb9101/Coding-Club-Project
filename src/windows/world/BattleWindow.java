@@ -19,7 +19,7 @@ import main.Registry;
 import main.Utils;
 import windows.Window;
 
-public class BattleWindow extends Window{
+public class BattleWindow extends World{
 	public static int scrollSpeed = 3;
 	public static String currMapPath = null;
 	
@@ -32,8 +32,7 @@ public class BattleWindow extends Window{
 	GraphicsImage attackRight = new GraphicsImage(Registry.imgRes.get("Flag2"),130,75,80,80);
 	
 	public BattleWindow(String name) {
-		
-		super(name,false);
+		super(name);
 		if(currMapPath != null){
 			MapLoader.load(currMapPath);
 		}
@@ -89,6 +88,12 @@ public class BattleWindow extends Window{
 		else if(evt.getKeyChar() == 'w'){
 			Tile.yOffset += scrollSpeed;
 		}
+		
+	}
+
+	@Override
+	public void drawWorld(Graphics g) {
+		// TODO Auto-generated method stub
 		
 	}
 }
