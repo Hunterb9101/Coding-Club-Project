@@ -8,6 +8,8 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import entity.Unit;
+import entity.UnitClass;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
 import windows.world.Overlay;
@@ -19,6 +21,8 @@ public class Registry {
 	
 	public static HashMap<String,Image> tileRes = new HashMap<String,Image>();
 	public static HashMap<String,Image> overlayRes = new HashMap<String,Image>();
+	
+	public static HashMap<String,Unit> presetClasses = new HashMap<String,Unit>();
 	
 	
 	// These HashMaps exist so that the Registry can generate a save schema that isn't hard-coded //
@@ -33,12 +37,22 @@ public class Registry {
 		// Include Swords, Potions, and stuff here
 	}
 	
-	public static void registerPlayerClasses() {
+
+	
+	public static void registerPresetClasses() {
 		// Register PlayerClasses here
+		
+		//Unit Params: Name, HP, ATK, mATK, DEF, SPD, MRES, LUCK, LEVEL. Set Base Stats
+		//UnitClass Params: Replace LEVEL with HITRATE. Same params mangage level up chance
+		registerPresetClass("Bleh", new Unit("Bleh", 1, 1, 1, 1, 1, 1, 1, 1, new UnitClass("Bleh", .5, .5, .5, .5, .5, .5, .5, .5), null));
+	}
+	
+	private static void registerPresetClass(String key, Unit c) {
+		
+		presetClasses.put(key, c);
 	}
 	
 	public static void registerWindows(){
-		new World("world");
 		new WorldEditor("worldEditor", imgLoadError);
 		new StartMenuWindow("start");
 		new BattleWindow("battle");
