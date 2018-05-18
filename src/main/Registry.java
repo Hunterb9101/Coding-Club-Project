@@ -39,7 +39,7 @@ public class Registry {
 	
 	public static void registerWindows(){
 		new World("world");
-		new WorldEditor("worldEditor");
+		new WorldEditor("worldEditor", imgLoadError);
 		new StartMenuWindow("start");
 		new BattleWindow("battle");
 	}

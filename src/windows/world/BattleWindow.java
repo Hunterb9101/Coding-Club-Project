@@ -32,12 +32,12 @@ public class BattleWindow extends World{
 	GraphicsImage attackRight = new GraphicsImage(Registry.imgRes.get("Flag2"),130,75,80,80);
 	
 	public BattleWindow(String name) {
-		super(name);
+		super(name, MapLoader.genMapKey);
 		if(currMapPath != null){
-			MapLoader.load(currMapPath);
+			MapLoader.load(currMapPath, this);
 		}
 		else{
-			MapLoader.generateMap();
+			MapLoader.generateMap(this);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class BattleWindow extends World{
 		
 		try{
 			if(!currMapPath.equals(MapLoader.loadedMap)){
-				MapLoader.load(currMapPath); // Load the Current Map
+				MapLoader.load(currMapPath, this); // Load the Current Map
 			}
 		}
 		catch(NullPointerException e){}
@@ -54,7 +54,7 @@ public class BattleWindow extends World{
 		// Needed Statements in any draw()
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(GraphicsObject.currWidth,GraphicsObject.currHeight)); // Windows are created as bufferedImages so that they can be transformed later
 		Graphics g = render.getGraphics();
-		Tile.drawTiles(g);
+		Tile.drawTiles(g, this);
 		
 		statsBox.drawObject(g);
 		g.setColor(Color.black);
@@ -69,31 +69,33 @@ public class BattleWindow extends World{
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		System.out.println(Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[0] + ", " + Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset)[1]);
+		System.out.println(Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this)[0] + ", " + Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this)[1]);
 		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent evt) {
 		if(evt.getKeyChar() == 'd'){
-			Tile.xOffset -= scrollSpeed;
+			xOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'a'){
-			Tile.xOffset += scrollSpeed;
+			xOffset += scrollSpeed;
 			
 		}
 		else if(evt.getKeyChar() == 's'){
-			Tile.yOffset -= scrollSpeed;
+			yOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'w'){
-			Tile.yOffset += scrollSpeed;
+			yOffset += scrollSpeed;
 		}
 		
 	}
 
 	@Override
-	public void drawWorld(Graphics g) {
+	public void drawWorld(Graphics g, int width, int height) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }
