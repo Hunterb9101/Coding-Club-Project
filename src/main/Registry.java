@@ -12,6 +12,7 @@ import entity.Unit;
 import entity.UnitClass;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
+import windows.world.MapLoader;
 import windows.world.Overlay;
 import windows.world.World;
 import windows.world.WorldEditor;
@@ -22,7 +23,7 @@ public class Registry {
 	public static HashMap<String,Image> tileRes = new HashMap<String,Image>();
 	public static HashMap<String,Image> overlayRes = new HashMap<String,Image>();
 	
-	public static HashMap<String,Unit> presetClasses = new HashMap<String,Unit>();
+	public static HashMap<String,UnitClass> presetClasses = new HashMap<String,UnitClass>();
 	
 	
 	// These HashMaps exist so that the Registry can generate a save schema that isn't hard-coded //
@@ -42,18 +43,18 @@ public class Registry {
 	public static void registerPresetClasses() {
 		// Register PlayerClasses here
 		
-		//Unit Params: Name, HP, ATK, mATK, DEF, SPD, MRES, LUCK, LEVEL. Set Base Stats
-		//UnitClass Params: Replace LEVEL with HITRATE. Same params mangage level up chance
-		registerPresetClass("Bleh", new Unit("Bleh", 1, 1, 1, 1, 1, 1, 1, 1, new UnitClass("Bleh", .5, .5, .5, .5, .5, .5, .5, .5), null));
+		
+		//UnitClass Params: Name, HP, ATK, mATK, DEF, SPD, MRES, LUCK, LEVEL. Set level up chance
+		registerPresetClass("Bleh", new UnitClass("Bleh", .5, .5, .5, .5, .5, .5, .5, .5));
 	}
 	
-	private static void registerPresetClass(String key, Unit c) {
+	private static void registerPresetClass(String key, UnitClass c) {
 		
 		presetClasses.put(key, c);
 	}
 	
 	public static void registerWindows(){
-		new WorldEditor("worldEditor", imgLoadError);
+		new WorldEditor("worldEditor", MapLoader.genMapKey);
 		new StartMenuWindow("start");
 		new BattleWindow("battle");
 	}

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import entity.Entity;
 import graphics.shapes.GraphicsObject;
 import main.Player.traits;
 import windows.Window;
