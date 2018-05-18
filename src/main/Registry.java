@@ -8,11 +8,15 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+
 import entity.Perk;
 import entity.Spell;
+
 import entity.Unit;
 import entity.UnitClass;
 import windows.StartMenuWindow;
+import windows.world.BattleWindow;
+import windows.world.MapLoader;
 import windows.world.Overlay;
 import windows.world.World;
 import windows.world.WorldEditor;
@@ -23,6 +27,8 @@ public class Registry {
 	public static HashMap<String,Image> tileRes = new HashMap<String,Image>();
 	public static HashMap<String,Image> overlayRes = new HashMap<String,Image>();
 	
+	public static HashMap<String,UnitClass> presetClasses = new HashMap<String,UnitClass>();
+	
 	
 	// These HashMaps exist so that the Registry can generate a save schema that isn't hard-coded //
 	public static HashMap<String,Integer> saveTileKey = new HashMap<String,Integer>();
@@ -31,10 +37,30 @@ public class Registry {
 	public static boolean resourceDebugOutput = false; // Suppresses/Enables "Loaded Resource" System.println() output
 	static String imgLoadError = "Error loading image: ";
 	
+	
+	public static void registerItems() {
+		// Include Swords, Potions, and stuff here
+	}
+	
+
+	
+	public static void registerPresetClasses() {
+		// Register PlayerClasses here
+		
+		
+		//UnitClass Params: Name, HP, ATK, mATK, DEF, SPD, MRES, LUCK, LEVEL. Set level up chance
+		registerPresetClass("Bleh", new UnitClass("Bleh", .5, .5, .5, .5, .5, .5, .5, .5));
+	}
+	
+	private static void registerPresetClass(String key, UnitClass c) {
+		
+		presetClasses.put(key, c);
+	}
+	
 	public static void registerWindows(){
-		new World("world");
-		new WorldEditor("worldEditor");
+		new WorldEditor("worldEditor", MapLoader.genMapKey);
 		new StartMenuWindow("start");
+		new BattleWindow("battle");
 	}
 	
 	
@@ -79,8 +105,11 @@ public class Registry {
 		imgRes.put("Flag", loadImage("resMaps/Flag.png"));//test image
 		imgRes.put("Flag2", loadImage("resMaps/Flag2.png"));
 		imgRes.put("Grid", loadImage("resMaps/Grid.png"));
+		
+		
+		// Should not be placed here, but will be for now.
+		imgRes.put("Character", loadImage("entity/PlayerALPHA.png"));
 	}
-	
 	
 	public static void registerTile(String key, Image value){
 		tileRes.put(key, value);

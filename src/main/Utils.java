@@ -99,7 +99,6 @@ public class Utils {
 		String[] elements = currDir.split("\\\\");
 		
 		for(int i = 0; i<elements.length; i++){
-			System.out.println(elements[i]);
 		}
 		
 		for(int i = 0; i<elements.length - 1; i++){
@@ -137,7 +136,6 @@ public class Utils {
 			PrintWriter writer = new PrintWriter(new File(path), "UTF-8");
 			
 			for(int i = 1; i<data.length; i++) {
-				System.out.println(data[i]);
 				writer.println(data[i]);
 			}
 		

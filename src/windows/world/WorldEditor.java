@@ -17,63 +17,25 @@ import main.Registry;
 import main.Utils;
 import windows.Window;
 
-public class WorldEditor extends Window{
-	public static int scrollSpeed = 3;
-	public static String currMapPath = "maps/Hunter.txt";
-	public static Random rand = new Random();
-	
+public class WorldEditor extends World{
 	public static boolean isOverlay = false;
 	public static int item = 0;
 	
-	public WorldEditor(String name) {
-		super(name,false);
-		if(currMapPath != null){
-			MapLoader.load(currMapPath);
-		}
-		else{
-			MapLoader.generateMap();
-		}
-	}
-
-	@Override
-	public BufferedImage draw(Component mainWindow) {
-		try{
-			if(!currMapPath.equals(MapLoader.loadedMap)){
-				MapLoader.load(currMapPath); // Load the Current Map
-			}
-		}
-		catch(NullPointerException e){}
-		
-		// Needed Statements in any draw()
-		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
-		Graphics g = render.getGraphics();
-		Tile.drawTiles(g);
-		
-		
-		// This creates the menu for the World Editor //
-		g.setColor(Color.darkGray);
-		g.fillRect(mainWindow.getWidth() - 100, 20, 86, 166);
-		
-		if(isOverlay){
-			g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), mainWindow.getWidth() - 100, 25, null);
-		}
-		else{
-			g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), mainWindow.getWidth() - 97, 25, null);
-		}
-		
-		return render;
+	public WorldEditor(String name, String mapPath) {
+		super(name,mapPath);
+		setMap(mapPath);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		int[] coords = Tile.selectTile(evt.getX() - Tile.xOffset, evt.getY() - Tile.yOffset);
-		for(int i = 0; i<Tile.allTiles.size(); i++){
-			if(Tile.allTiles.get(i).coords == coords){
+		int[] coords = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this);
+		for(int i = 0; i< worldTiles.size(); i++){
+			if(worldTiles.get(i).coords == coords){
 				if(isOverlay){
-					Tile.allTiles.get(i+1).overlay = Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)); //The +maxRow is added so that the tree is on the correct tile.
+					worldTiles.get(i+1).overlay = Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)); //The +maxRow is added so that the tree is on the correct tile.
 				}
 				else{
-					Tile.allTiles.get(i).baseImage = Utils.getKeyByValue(Registry.saveTileKey,item);
+					worldTiles.get(i).baseImage = Utils.getKeyByValue(Registry.saveTileKey,item);
 				}
 			}
 		}
@@ -84,17 +46,17 @@ public class WorldEditor extends Window{
 	@Override
 	public void keyPressed(KeyEvent evt) {
 		if(evt.getKeyChar() == 'd'){
-			Tile.xOffset -= scrollSpeed;
+			xOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'a'){
-			Tile.xOffset += scrollSpeed;
+			xOffset += scrollSpeed;
 			
 		}
 		else if(evt.getKeyChar() == 's'){
-			Tile.yOffset -= scrollSpeed;
+			yOffset -= scrollSpeed;
 		}
 		else if(evt.getKeyChar() == 'w'){
-			Tile.yOffset += scrollSpeed;
+			yOffset += scrollSpeed;
 		}
 		
 		else if(evt.getKeyChar() == 'i'){
@@ -121,7 +83,21 @@ public class WorldEditor extends Window{
 		else if(evt.getKeyChar() == 'q'){
 			String fileName = JOptionPane.showInputDialog("File Name for Map Save:");
 			System.out.println(fileName);
-			MapLoader.save(fileName);
+			MapLoader.save(fileName,this);
 		}
+	}
+
+	@Override
+	public void drawWorld(Graphics g, int width, int height) {
+		// This creates the menu for the World Editor //
+				g.setColor(Color.darkGray);
+				g.fillRect(width - 100, 20, 86, 166);
+				
+				if(isOverlay){
+					g.drawImage(Registry.overlayRes.get(Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)).image), width - 100, 25, null);
+				}
+				else{
+					g.drawImage(Registry.tileRes.get(Utils.getKeyByValue(Registry.saveTileKey,item)), width - 97, 25, null);
+				}
 	}
 }
