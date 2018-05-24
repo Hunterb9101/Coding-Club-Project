@@ -31,7 +31,7 @@ public class Main extends graphics.ConstructorClass{
 		
 		Registry.registerImageResources();
 		Registry.registerWindows();
-		new Entity("--",null);
+		//new Entity("--",null,null);
 	}
 	
 	public void draw(Graphics g, int width, int height){

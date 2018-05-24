@@ -22,6 +22,7 @@ public abstract class World extends Window{
 	public int yOffset = 0;
 	public int origXOffset = 0;
 	public int origYOffset = 0;
+	public int[] worldSize = new int[]{0,0};
 	
 	private String currMapPath = ""; // Change this to the file path, or MapLoader.genMapKey
 	public ArrayList<Tile> worldTiles = new ArrayList<Tile>(); // Functions as AllTiles used to.
@@ -33,8 +34,8 @@ public abstract class World extends Window{
 	}
 
 	public void setMap(String mapPath){ // The way to change maps for a given World instance at any time.
-		if(currMapPath.equals(MapLoader.genMapKey)){
-			MapLoader.generateMap(this); // Load the Current Map
+		if(mapPath.equals(MapLoader.genMapKey)){
+			MapLoader.generateMap(this,40,40); // Load the Current Map
 		}
 		else{
 			MapLoader.load(mapPath,this); // Load the Current Map

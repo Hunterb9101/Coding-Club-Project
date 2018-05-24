@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
+import windows.world.MapLoader;
 import windows.world.Overlay;
 import windows.world.World;
 import windows.world.WorldEditor;
@@ -38,10 +39,10 @@ public class Registry {
 	}
 	
 	public static void registerWindows(){
-		new World("world");
-		new WorldEditor("worldEditor");
+		//new World("world","maps/Hunter2.txt");
+		new WorldEditor("worldEditor","maps/Hunter2.txt");
 		new StartMenuWindow("start");
-		new BattleWindow("battle");
+		new BattleWindow("battle",MapLoader.genMapKey);
 	}
 	
 	
