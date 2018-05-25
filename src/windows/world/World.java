@@ -18,6 +18,13 @@ import windows.Window;
 
 public abstract class World extends Window{
 	public int scrollSpeed = 3;
+	
+	// Offset and Scrolling Variables //
+	public boolean isScrolling = false;
+	public int stepsToGo = 0;
+	public int stepSizeX = 0;
+	public int stepSizeY = 0;
+	
 	public int xOffset = 0;
 	public int yOffset = 0;
 	public int origXOffset = 0;
@@ -82,5 +89,27 @@ public abstract class World extends Window{
 		*/
 		
 		// Basic scrolling ability
+	}
+	
+	public void slowScroll(int duration, int xTarget, int yTarget) {
+		System.out.println(isScrolling);
+		System.out.println(stepsToGo + " steps @ " + stepSizeX + ", " + stepSizeY);
+		if(!isScrolling) {
+			isScrolling = true;
+			stepsToGo = duration;
+			stepSizeX = xTarget/duration;
+			stepSizeY = yTarget/duration;
+		}
+		else {
+			if(xOffset != xTarget && yOffset != yTarget) {
+				xOffset += stepSizeX;
+				yOffset += stepSizeY;
+			}
+			
+			stepsToGo--;
+			if(stepsToGo < 0) {
+				isScrolling = false;
+			}
+		}
 	}
 }
