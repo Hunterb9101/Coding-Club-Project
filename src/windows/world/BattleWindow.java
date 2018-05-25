@@ -30,16 +30,25 @@ public class BattleWindow extends World{
 	GraphicsImage attackLeft = new GraphicsImage(Registry.imgRes.get("Flag2"),30,75,80,80);
 	GraphicsImage attackRight = new GraphicsImage(Registry.imgRes.get("Flag2"),130,75,80,80);
 	
+	public static Unit selectedUnit;
+	
 	public BattleWindow(String name,String currMapPath) {
 		super(name,currMapPath);
-		UnitClass uClass = new UnitClass("NullUClass",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		new Unit(":-)","Character",new int[]{5,4},uClass, 0,new Perk[]{},this, false);
+		UnitClass uClass = new UnitClass("NullUClass",0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0);
+		Unit u = new Unit(":-)","Character",new int[]{5,4},uClass, 1,new Perk[]{},this, false);
+		u.setTarget(new int[] {20,20});
 	}
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		System.out.println(Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[0] + ", " + Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[1]);
+		int x = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[0];
+		int y = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[1];
+		System.out.println(x + ", " + y);
 		int[][] bounds = Tile.getDrawBounds(this);
+		//Unit.moveAllUnits(this);
+		
+		selectedUnit = Unit.selectUnit(this, new int[] {x,y});
+		
 	}
 
 	@Override
