@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Random;
 
+import entity.Perk;
+import entity.Unit;
+import entity.UnitClass;
 import graphics.shapes.GraphicsImage;
 import graphics.shapes.GraphicsObject;
 import graphics.shapes.GraphicsPrimitives;
@@ -29,6 +32,8 @@ public class BattleWindow extends World{
 	
 	public BattleWindow(String name,String currMapPath) {
 		super(name,currMapPath);
+		UnitClass uClass = new UnitClass("NullUClass",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		new Unit(":-)","Character",new int[]{5,4},uClass, 0,new Perk[]{},this, false);
 	}
 
 	@Override

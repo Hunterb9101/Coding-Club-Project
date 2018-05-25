@@ -77,6 +77,8 @@ public class Registry {
 		imgRes.put("exitButton", loadImage("buttons/Exit.png"));
 		imgRes.put("loadGameButton", loadImage("buttons/LoadGame.png"));
 		imgRes.put("newGameButton", loadImage("buttons/NewGame.png"));	
+		imgRes.put("worldEditorButton", loadImage("buttons/WorldEditor.png"));
+		imgRes.put("battleWindowButton", loadImage("buttons/BattleWindow.png"));
 		
 		imgRes.put("mainMap", loadImage("resMaps/MainMap.png"));
 		imgRes.put("mainMapMonochromatic", loadImage("resMaps/MainMapMonochromatic.png"));

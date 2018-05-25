@@ -38,11 +38,9 @@ public class Unit {
 		this.perks = perks;
 		this.AI    = isAI;
 		this.coords = coord;
-		src = Registry.loadImage(img);
-		
+		src = Registry.imgRes.get(img);
+		w.worldUnits.add(this);
 	}
-	
-	
 	
 	public static void drawAllUnitsInWorld(Graphics g, World w){
 		

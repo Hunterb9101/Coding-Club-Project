@@ -47,7 +47,7 @@ public abstract class World extends Window{
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();
 		Tile.drawTiles(g,this);
-		//Unit.drawAllEntitiesInWorld(g, this);
+		Unit.drawAllUnitsInWorld(g, this);
 		drawWorld(g, mainWindow.getWidth(), mainWindow.getHeight());
 		return render;
 	}
