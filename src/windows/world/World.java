@@ -11,7 +11,7 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Random;
 
-import entity.Entity;
+import entity.Unit;
 import main.Main;
 import main.Utils;
 import windows.Window;
@@ -26,7 +26,7 @@ public abstract class World extends Window{
 	
 	private String currMapPath = ""; // Change this to the file path, or MapLoader.genMapKey
 	public ArrayList<Tile> worldTiles = new ArrayList<Tile>(); // Functions as AllTiles used to.
-	public ArrayList<Entity> worldEntities = new ArrayList<Entity>(); // Functions as AllEntities did.
+	public ArrayList<Unit> worldUnits = new ArrayList<Unit>(); // Functions as AllEntities did.
 	
 	public World(String name, String mapPath) {
 		super(name,false);
@@ -47,7 +47,7 @@ public abstract class World extends Window{
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();
 		Tile.drawTiles(g,this);
-		Entity.drawAllEntitiesInWorld(g, this);
+		//Unit.drawAllEntitiesInWorld(g, this);
 		drawWorld(g, mainWindow.getWidth(), mainWindow.getHeight());
 		return render;
 	}

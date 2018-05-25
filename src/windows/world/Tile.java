@@ -57,7 +57,6 @@ public class Tile {
 				try{
 					g.drawImage(Registry.tileRes.get(w.worldTiles.get(j*w.worldSize[0] + i).baseImage),w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset, null);
 					if(w.worldTiles.get(j*w.worldSize[0]+i).overlay != null){
-						System.out.println(w.worldTiles.get(j*w.worldSize[0] + i).coords[0] + ", " + w.worldTiles.get(j*w.worldSize[0] + i).coords[1]);
 						g.drawImage(Registry.overlayRes.get(w.worldTiles.get(j*w.worldSize[0] + i).overlay.image),w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset - Registry.overlayRes.get(w.worldTiles.get(j*w.worldSize[0]+i).overlay.image).getHeight(null), null);
 					}
 					

@@ -97,6 +97,7 @@ public class MapLoader {
 	public static void generateMap(World w, int mapWidth, int mapHeight){
 		System.out.println("Generating Map");
 		w.worldTiles.clear();
+		w.worldSize = new int[]{0,0};
 		loadedMap = genMapKey;
 		
 		for(int x = 0; x < mapWidth; x++){

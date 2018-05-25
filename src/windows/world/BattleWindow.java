@@ -35,7 +35,6 @@ public class BattleWindow extends World{
 	public void mousePressed(MouseEvent evt) {
 		System.out.println(Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[0] + ", " + Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[1]);
 		int[][] bounds = Tile.getDrawBounds(this);
-		System.out.println(bounds[0][0] + ", " + bounds[0][1] + " to " + bounds[1][0] + ", " + bounds[1][1]);
 	}
 
 	@Override
