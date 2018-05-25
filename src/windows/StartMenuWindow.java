@@ -84,7 +84,9 @@ import main.Utils;
 
 	@Override
 	public void keyPressed(KeyEvent evt) {
-		// TODO Auto-generated method stub
+		if(evt.getKeyChar() == '1'){
+			Window.setWindow("action");
+		}
 		
 	}
  }

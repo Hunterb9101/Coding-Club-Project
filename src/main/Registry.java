@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import windows.ActionMenu;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
 import windows.world.MapLoader;
@@ -43,6 +44,7 @@ public class Registry {
 		new WorldEditor("worldEditor","maps/Hunter2.txt");
 		new StartMenuWindow("start");
 		new BattleWindow("battle",MapLoader.genMapKey);
+		new ActionMenu("action");
 	}
 	
 	
