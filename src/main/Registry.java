@@ -15,6 +15,8 @@ import entity.Spell;
 import entity.Unit;
 import entity.UnitClass;
 import entity.items.Weapon;
+
+import windows.ActionMenu;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
 import windows.world.MapLoader;
@@ -27,8 +29,6 @@ public class Registry {
 	
 	public static HashMap<String,Image> tileRes = new HashMap<String,Image>();
 	public static HashMap<String,Image> overlayRes = new HashMap<String,Image>();
-	
-	public static HashMap<String,UnitClass> presetClasses = new HashMap<String,UnitClass>();
 	
 	
 	// These HashMaps exist so that the Registry can generate a save schema that isn't hard-coded //
@@ -47,25 +47,16 @@ public class Registry {
 		Weapon ironDagger = new Weapon("Iron Dagger", 1, 50, 4, .1, 0, 1,perks); 
 	}
 	
-
-	
-	public static void registerPresetClasses() {
+	public static void registerPlayerClasses() {
 		// Register PlayerClasses here
-		
-		
-		//UnitClass Params: Name, HP, ATK, mATK, DEF, SPD, MRES, LUCK, LEVEL. Set level up chance
-		registerPresetClass("Bleh", new UnitClass("Bleh", .5, .5, .5, .5, .5, .5, .5, .5));
-	}
-	
-	private static void registerPresetClass(String key, UnitClass c) {
-		
-		presetClasses.put(key, c);
 	}
 	
 	public static void registerWindows(){
-		new WorldEditor("worldEditor", MapLoader.genMapKey);
+		//new World("world","maps/Hunter2.txt");
+		new WorldEditor("worldEditor","maps/Hunter2.txt");
 		new StartMenuWindow("start");
-		new BattleWindow("battle");
+		new BattleWindow("battle",MapLoader.genMapKey);
+		new ActionMenu("action");
 	}
 	
 	
@@ -100,6 +91,8 @@ public class Registry {
 		imgRes.put("exitButton", loadImage("buttons/Exit.png"));
 		imgRes.put("loadGameButton", loadImage("buttons/LoadGame.png"));
 		imgRes.put("newGameButton", loadImage("buttons/NewGame.png"));	
+		imgRes.put("worldEditorButton", loadImage("buttons/WorldEditor.png"));
+		imgRes.put("battleWindowButton", loadImage("buttons/BattleWindow.png"));
 		
 		imgRes.put("mainMap", loadImage("resMaps/MainMap.png"));
 		imgRes.put("mainMapMonochromatic", loadImage("resMaps/MainMapMonochromatic.png"));
@@ -151,16 +144,4 @@ public class Registry {
 
 		return img;
 	}
-	public void registerSpells() {
-		Spell smashAttack = new Spell("Smash Attack", "earth",3, 1, 1);
-		Spell rockWall = new Spell("Rock Wall", "earth", 2, 0, 2, 0, 100, 2, 1, "rock wall");
-		Spell sink = new Spell("Sink", "earth", 5, 0, 3, "bury", 0, true, 2, 0);
-		Spell sandstorm = new Spell("Sandstorm", "earth", 4, .5, 7, .5, 3, 5, 5);
-		Spell landslide = new Spell("Landslide", "earth", 4, 1.5, 4, 0, 1, 1, 3);
-		
-		
-		Spell bubble = new Spell("Bubble","water",5,.75,1);
-		Spell steamBlast = new Spell("Steam Blast","water",3,1,1);
-	}
-	
 }

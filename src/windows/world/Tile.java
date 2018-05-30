@@ -22,9 +22,7 @@ public class Tile {
 	int x;
 	int y;
 	public int[] coords;
-	
-	public static int maxCol = 0;
-	public static int maxRow = 0;
+
 	
 	public Tile(int[] coords, String baseImage, World w){
 		this.baseImage = baseImage;
@@ -32,11 +30,11 @@ public class Tile {
 		this.x = coords[0]*tileSize;
 		this.y = coords[1]*tileSize;
 		
-		if(coords[0]-1 > maxCol){
-			maxCol = coords[0];
+		if(coords[0]-1 > w.worldSize[0]){
+			w.worldSize[0] = coords[0];
 		}
-		if(coords[1]-1 > maxRow){
-			maxRow = coords[1];
+		if(coords[1]-1 > w.worldSize[1]){
+			w.worldSize[1] = coords[1];
 		}
 		w.worldTiles.add(this);
 	}
@@ -54,20 +52,20 @@ public class Tile {
 	}
 	
 	public static void drawTiles(Graphics g, World w){
-		for(int i = - w.xOffset/80; i<Main.width/tileSize - w.xOffset/tileSize + 2; i++){  // Only loads a portion of the map for improved performance.
-			for(int j = - w.yOffset/80; j<Main.height/tileSize - w.yOffset/tileSize + 2; j++){ // Only loads a portion of the map for improved performance.
+		for(int i = - w.xOffset/tileSize; i<Main.width/tileSize - w.xOffset/tileSize + 2; i++){  // Only loads a portion of the map for improved performance.
+			for(int j = - w.yOffset/tileSize; j<Main.height/tileSize - w.yOffset/tileSize + 2; j++){ // Only loads a portion of the map for improved performance.
 				try{
-					g.drawImage(Registry.tileRes.get(w.worldTiles.get(j*maxCol + i).baseImage),w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + w.yOffset, null);
-					if(w.worldTiles.get(j*maxCol+i).overlay != null){
-						g.drawImage(Registry.overlayRes.get(w.worldTiles.get(j*maxCol + i).overlay.image),w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + w.yOffset - Registry.overlayRes.get(w.worldTiles.get(j*maxCol+i).overlay.image).getHeight(null), null);
+					g.drawImage(Registry.tileRes.get(w.worldTiles.get(j*w.worldSize[0] + i).baseImage),w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset, null);
+					if(w.worldTiles.get(j*w.worldSize[0]+i).overlay != null){
+						g.drawImage(Registry.overlayRes.get(w.worldTiles.get(j*w.worldSize[0] + i).overlay.image),w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset - Registry.overlayRes.get(w.worldTiles.get(j*w.worldSize[0]+i).overlay.image).getHeight(null), null);
 					}
 					
 					if(showBorders){
-						g.drawLine(w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + w.yOffset, w.worldTiles.get(j*maxCol+i).x + tileSize + w.xOffset, w.worldTiles.get(j*maxCol+i).y + w.yOffset);
-						g.drawLine(w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + tileSize + w.yOffset, w.worldTiles.get(j*maxCol+i).x + tileSize + w.xOffset, w.worldTiles.get(j*maxCol+i).y +tileSize + w.yOffset);
+						g.drawLine(w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset, w.worldTiles.get(j*w.worldSize[0]+i).x + tileSize + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset);
+						g.drawLine(w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + tileSize + w.yOffset, w.worldTiles.get(j*w.worldSize[0]+i).x + tileSize + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y +tileSize + w.yOffset);
 						
-						g.drawLine(w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + w.yOffset, w.worldTiles.get(j*maxCol+i).x + w.xOffset, w.worldTiles.get(j*maxCol+i).y + tileSize + w.yOffset);
-						g.drawLine(w.worldTiles.get(j*maxCol+i).x + w.xOffset + tileSize, w.worldTiles.get(j*maxCol+i).y + w.yOffset, w.worldTiles.get(j*maxCol+i).x + tileSize + w.xOffset, w.worldTiles.get(j*maxCol+i).y + tileSize + w.yOffset);
+						g.drawLine(w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset, w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + tileSize + w.yOffset);
+						g.drawLine(w.worldTiles.get(j*w.worldSize[0]+i).x + w.xOffset + tileSize, w.worldTiles.get(j*w.worldSize[0]+i).y + w.yOffset, w.worldTiles.get(j*w.worldSize[0]+i).x + tileSize + w.xOffset, w.worldTiles.get(j*w.worldSize[0]+i).y + tileSize + w.yOffset);
 					} 
 				}
 				catch(ArrayIndexOutOfBoundsException e){

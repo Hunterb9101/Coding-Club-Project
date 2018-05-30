@@ -22,7 +22,7 @@ import main.Utils;
  	GraphicsPrimitives titleLineRight  = new GraphicsPrimitives(new Color(234,208,0),798,0,2,200);
  	// GraphicsImage(Image source, Int X, Int Y, Int Width, Int Height);
  
- 	GraphicsImage loadGame = new GraphicsImage(Registry.imgRes.get("loadGameButton"),300,225,200,50){
+ 	GraphicsImage loadGame = new GraphicsImage(Registry.imgRes.get("worldEditorButton"),300,225,200,50){
  			@Override
  			public void onClick(){ //What happens when this image is clicked?
  				Window.setWindow("worldEditor"); // Sets the window to the "world" window (as defined in the registry
@@ -32,11 +32,11 @@ import main.Utils;
  	GraphicsImage newGame = new GraphicsImage(Registry.imgRes.get("newGameButton"),300,300,200,50){
  			@Override
  			public void onClick(){
- 				Window.setWindow("world");
+ 				//Window.setWindow("world");
  			}
  	};
  
- 	GraphicsImage credits = new GraphicsImage(Registry.imgRes.get("creditButton"),300,375,200,50){ 
+ 	GraphicsImage credits = new GraphicsImage(Registry.imgRes.get("battleWindowButton"),300,375,200,50){ 
  		@Override
  		public void onClick(){
  			Window.setWindow("battle");
@@ -84,7 +84,9 @@ import main.Utils;
 
 	@Override
 	public void keyPressed(KeyEvent evt) {
-		// TODO Auto-generated method stub
+		if(evt.getKeyChar() == '1'){
+			Window.setWindow("action");
+		}
 		
 	}
  }

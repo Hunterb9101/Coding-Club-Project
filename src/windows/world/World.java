@@ -11,21 +11,29 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Random;
 
-import entity.Entity;
+import entity.Unit;
 import main.Main;
 import main.Utils;
 import windows.Window;
 
 public abstract class World extends Window{
 	public int scrollSpeed = 3;
+	
+	// Offset and Scrolling Variables //
+	public boolean isScrolling = false;
+	public int stepsToGo = 0;
+	public int stepSizeX = 0;
+	public int stepSizeY = 0;
+	
 	public int xOffset = 0;
 	public int yOffset = 0;
 	public int origXOffset = 0;
 	public int origYOffset = 0;
+	public int[] worldSize = new int[]{0,0};
 	
 	private String currMapPath = ""; // Change this to the file path, or MapLoader.genMapKey
 	public ArrayList<Tile> worldTiles = new ArrayList<Tile>(); // Functions as AllTiles used to.
-	public ArrayList<Entity> worldEntities = new ArrayList<Entity>(); // Functions as AllEntities did.
+	public ArrayList<Unit> worldUnits = new ArrayList<Unit>(); // Functions as AllEntities did.
 	
 	public World(String name, String mapPath) {
 		super(name,false);
@@ -33,8 +41,8 @@ public abstract class World extends Window{
 	}
 
 	public void setMap(String mapPath){ // The way to change maps for a given World instance at any time.
-		if(currMapPath.equals(MapLoader.genMapKey)){
-			MapLoader.generateMap(this); // Load the Current Map
+		if(mapPath.equals(MapLoader.genMapKey)){
+			MapLoader.generateMap(this,40,40); // Load the Current Map
 		}
 		else{
 			MapLoader.load(mapPath,this); // Load the Current Map
@@ -46,7 +54,7 @@ public abstract class World extends Window{
 		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(mainWindow.getWidth(),mainWindow.getHeight())); // 200x200 is the window size
 		Graphics g = render.getGraphics();
 		Tile.drawTiles(g,this);
-		Entity.drawAllEntitiesInWorld(g, this);
+		Unit.drawAllUnitsInWorld(g, this);
 		drawWorld(g, mainWindow.getWidth(), mainWindow.getHeight());
 		return render;
 	}
@@ -81,5 +89,27 @@ public abstract class World extends Window{
 		*/
 		
 		// Basic scrolling ability
+	}
+	
+	public void slowScroll(int duration, int xTarget, int yTarget) {
+		System.out.println(isScrolling);
+		System.out.println(stepsToGo + " steps @ " + stepSizeX + ", " + stepSizeY);
+		if(!isScrolling) {
+			isScrolling = true;
+			stepsToGo = duration;
+			stepSizeX = xTarget/duration;
+			stepSizeY = yTarget/duration;
+		}
+		else {
+			if(xOffset != xTarget && yOffset != yTarget) {
+				xOffset += stepSizeX;
+				yOffset += stepSizeY;
+			}
+			
+			stepsToGo--;
+			if(stepsToGo < 0) {
+				isScrolling = false;
+			}
+		}
 	}
 }

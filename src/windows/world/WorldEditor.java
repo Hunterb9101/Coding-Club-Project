@@ -28,8 +28,8 @@ public class WorldEditor extends World{
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		int[] coords = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this);
-		for(int i = 0; i< worldTiles.size(); i++){
+		int[] coords = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this);
+		for(int i = 0; i<worldTiles.size(); i++){
 			if(worldTiles.get(i).coords == coords){
 				if(isOverlay){
 					worldTiles.get(i+1).overlay = Overlay.allOverlays.get(Utils.getKeyByValue(Registry.saveOverlayKey,item)); //The +maxRow is added so that the tree is on the correct tile.

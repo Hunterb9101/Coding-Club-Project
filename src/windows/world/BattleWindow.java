@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Random;
 
+import entity.Perk;
+import entity.Unit;
+import entity.UnitClass;
 import graphics.shapes.GraphicsImage;
 import graphics.shapes.GraphicsObject;
 import graphics.shapes.GraphicsPrimitives;
@@ -20,56 +23,31 @@ import main.Utils;
 import windows.Window;
 
 public class BattleWindow extends World{
-	public static int scrollSpeed = 3;
-	public static String currMapPath = null;
-	
 	public static Random rand = new Random();
-	
 	public static boolean isPlayerTurn = true;
 	
 	GraphicsPrimitives statsBox  = new GraphicsPrimitives(new Color(234,208,0),0,0,240,Main.height);
 	GraphicsImage attackLeft = new GraphicsImage(Registry.imgRes.get("Flag2"),30,75,80,80);
 	GraphicsImage attackRight = new GraphicsImage(Registry.imgRes.get("Flag2"),130,75,80,80);
 	
-	public BattleWindow(String name) {
-		super(name, MapLoader.genMapKey);
-		if(currMapPath != null){
-			MapLoader.load(currMapPath, this);
-		}
-		else{
-			MapLoader.generateMap(this);
-		}
-	}
-
-	@Override
-	public BufferedImage draw(Component mainWindow) {
-		
-		try{
-			if(!currMapPath.equals(MapLoader.loadedMap)){
-				MapLoader.load(currMapPath, this); // Load the Current Map
-			}
-		}
-		catch(NullPointerException e){}
-		
-		// Needed Statements in any draw()
-		BufferedImage render = Utils.toBufferedImage(mainWindow.createImage(GraphicsObject.currWidth,GraphicsObject.currHeight)); // Windows are created as bufferedImages so that they can be transformed later
-		Graphics g = render.getGraphics();
-		Tile.drawTiles(g, this);
-		
-		statsBox.drawObject(g);
-		g.setColor(Color.black);
-		g.setFont(new Font("Helvetica", Font.PLAIN, 36));
-		g.drawString("Attack", 10, 30);
-		attackLeft.drawObject(g);
-		attackRight.drawObject(g);
-		g.drawString("Abilities", 10, 210);
-		
-		return render;
+	public static Unit selectedUnit;
+	
+	public BattleWindow(String name,String currMapPath) {
+		super(name,currMapPath);
+		UnitClass uClass = new UnitClass("NullUClass",0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0);
+		Unit u = new Unit(":-)","Character",new int[]{5,4},uClass, 1,new Perk[]{},this, false);
+		u.setTarget(new int[] {20,20});
 	}
 
 	@Override
 	public void mousePressed(MouseEvent evt) {
-		System.out.println(Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this)[0] + ", " + Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset, this)[1]);
+		int x = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[0];
+		int y = Tile.selectTile(evt.getX() - xOffset, evt.getY() - yOffset,this)[1];
+		System.out.println(x + ", " + y);
+		int[][] bounds = Tile.getDrawBounds(this);
+		//Unit.moveAllUnits(this);
+		
+		selectedUnit = Unit.selectUnit(this, new int[] {x,y});
 		
 	}
 
@@ -93,9 +71,12 @@ public class BattleWindow extends World{
 
 	@Override
 	public void drawWorld(Graphics g, int width, int height) {
-		// TODO Auto-generated method stub
-		
+		statsBox.drawObject(g);
+		g.setColor(Color.black);
+		g.setFont(new Font("Helvetica", Font.PLAIN, 36));
+		g.drawString("Attack", 10, 30);
+		attackLeft.drawObject(g);
+		attackRight.drawObject(g);
+		g.drawString("Abilities", 10, 210);
 	}
-
-
 }
