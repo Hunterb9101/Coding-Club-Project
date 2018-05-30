@@ -3,6 +3,7 @@ package entity;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import entity.items.Weapon;
 import main.Registry;
 import windows.world.Tile;
 import windows.world.World;
@@ -21,11 +22,12 @@ public class Unit {
 	Image src;
 	UnitClass c; //to determine how much it gets leveled up
 	Perk[]perks;
+	WeaponProficiency wProfs;//list of progress in training with each weapon
 	boolean AI;
 	int[] coords;
 	
 	
-	public Unit(String name, String img, int[] coord, UnitClass c, int lvl, Perk[] perks, World w, boolean isAI) {
+	public Unit(String name, String img, int[] coord, UnitClass c, int lvl, Perk[] perks, World w, WeaponProficiency wProfs, boolean isAI) {
 		this.name  = name;
 		this.hp    = c.hp * lvl;
 		this.atk   = c.atk * lvl;
@@ -36,6 +38,7 @@ public class Unit {
 		this.luck  = c.luck * lvl;
 		this.c	   = c;
 		this.perks = perks;
+		this.wProfs = wProfs;
 		this.AI    = isAI;
 		this.coords = coord;
 		src = Registry.loadImage(img);

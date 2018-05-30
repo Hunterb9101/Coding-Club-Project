@@ -14,6 +14,7 @@ import entity.Spell;
 
 import entity.Unit;
 import entity.UnitClass;
+import entity.items.Weapon;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
 import windows.world.MapLoader;
@@ -40,6 +41,10 @@ public class Registry {
 	
 	public static void registerItems() {
 		// Include Swords, Potions, and stuff here
+		Perk knife1 = new Perk("Throwing Knife","range",1);
+		Perk knife2 = new Perk("Sprint","speed",15);
+		Perk[]perks = {knife1,knife2};
+		Weapon ironDagger = new Weapon("Iron Dagger", 1, 50, 4, .1, 0, 1,perks); 
 	}
 	
 
