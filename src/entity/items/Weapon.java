@@ -3,6 +3,7 @@ package entity.items;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import entity.Perk;
 import main.Registry;
 
 public class Weapon extends InventoryItem{
@@ -18,8 +19,9 @@ public class Weapon extends InventoryItem{
 	int radius;
 	int dmgPerTurn;
 	int duration;
+	Perk [] perks;
 	public static Image src = Registry.loadImage("res/Flag2.png");
-	public Weapon(String name, int damage, int cost, int speedMod, double pierce, int darkMod, int reload) {
+	public Weapon(String name, int damage, int cost, int speedMod, double pierce, int darkMod, int reload,Perk []perks) {
 		super(name,src,cost);
 		this.speedMod = speedMod;
 		this.name = name;
@@ -28,10 +30,11 @@ public class Weapon extends InventoryItem{
 		this.pierce = pierce;
 		this.darkMod = darkMod;
 		this.reload = reload;
+		this.perks = perks;
 		allWeapons.add(this);	
 	}
 	public Weapon(String name, int damage, int cost, int speedMod, double pierce, int darkMod, int reload, boolean fire,
-			int radius, int dmgPerTurn, int duration) {
+			int radius, int dmgPerTurn, int duration,Perk []perks) {
 		super(name,src,cost);
 		this.speedMod = speedMod;
 		this.name = name;
@@ -43,6 +46,7 @@ public class Weapon extends InventoryItem{
 		this.radius = radius;
 		this.dmgPerTurn = dmgPerTurn;
 		this.duration = duration;
+		this.perks = perks;
 		allWeapons.add(this);	
 	}
 	public static Weapon getWeapon(String name){

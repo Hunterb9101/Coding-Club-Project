@@ -8,6 +8,14 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+
+import entity.Perk;
+import entity.Spell;
+
+import entity.Unit;
+import entity.UnitClass;
+import entity.items.Weapon;
+
 import windows.ActionMenu;
 import windows.StartMenuWindow;
 import windows.world.BattleWindow;
@@ -33,6 +41,10 @@ public class Registry {
 	
 	public static void registerItems() {
 		// Include Swords, Potions, and stuff here
+		Perk knife1 = new Perk("Throwing Knife","range",1);
+		Perk knife2 = new Perk("Sprint","speed",15);
+		Perk[]perks = {knife1,knife2};
+		Weapon ironDagger = new Weapon("Iron Dagger", 1, 50, 4, .1, 0, 1,perks); 
 	}
 	
 	public static void registerPlayerClasses() {

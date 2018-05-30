@@ -13,10 +13,6 @@ public class UnitClass {
 	double mRes;
 	double luck;
 	double hitRate;
-	Weapon weapon1;
-	Weapon weapon2;
-	Perk[]perkPath1;
-	Perk[]perkPath2;
 	
 	
 	public UnitClass(String name,double hp,double atk,double mAtk,double def,double spd,double mRes,double luck,double hitRate) {
@@ -29,9 +25,5 @@ public class UnitClass {
 		this.mRes = mRes;
 		this.luck = luck;
 		this.hitRate = hitRate;
-		this.weapon1 = weapon1;
-		this.weapon2 = weapon2;
-		this.perkPath1 = perkPath1;
-		this.perkPath2 = perkPath2;
 	}
 }
